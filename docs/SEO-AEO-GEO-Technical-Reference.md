@@ -335,7 +335,7 @@ No keyword research is stored in the repo. The table maps each commercial page t
 - **Global:** header nav (About, Services, Work, Careers, Contact), footer (Company: About, Team, Awards, Careers, Locations; Services: all 9 service offerings; Privacy Policy), breadcrumbs on every inner page.
 - **Service ↔ case study:** each service page shows its case studies (`caseStudiesForService`) and links to `/work?service={slug}` ("explore"); the Work tab for that service preselects via the query. Services with no Work tab (AI, Branding, Marketplace) link to plain `/work`.
 - **Case study → related:** a "Related Work" block (up to 3 cards) selected by same industry, then same family, then featured (`getRelatedWork`). Cards reuse the `/work` card component, so tag/title/image logic is identical.
-- **Work filters:** a case matches a tab if its badge matches **or** any of its `services` match (`matchesWorkFilter` in `workPage.ts`). Jockey carries the "Integrated Campaign" badge but also appears under SEO.
+- **Work filters:** a case matches a tab if its badge matches **or** any of its `services` match (`matchesWorkFilter` in `workPage.ts`). Jockey carries the "Integrated Campaign" badge but also appears under SEO. **Exception:** Royale Touché is listed only under "All Cases" and "Integrated Campaign" — its slug is in `badgeOnlyFilterCases` (`workPage.ts`), which skips the service-based matching. Add other slugs there to give them the same behaviour. (Service pages still list it as proof for the services it used.)
 - **Orphans:** none known — every sitemap URL is reachable from the nav, footer or a hub within two clicks. Re-check after adding pages.
 - **Proposal:** add a "Services used" link row on each case study (service names → `/services/{slug}`) to give service pages more internal anchors from proof pages, and a "Related services" row on service pages.
 
@@ -418,6 +418,8 @@ Apply per page type. Keep answers factual, brand-accurate and short.
 
 > **Status: hidden for now.** `FAQS_ENABLED = false` in `src/content/features.ts` switches off the visible FAQ sections (all 10 service pages, home, about) **and** their `FAQPage` markup together — markup for text that is not on the page breaks Google's structured-data rules, so the two must never be split. The copy, components and tests are intact: set the flag to `true` to publish. The launch script (`scripts/verify-launch.mjs`) accepts either state but fails if the section and the markup disagree. Everything below describes the feature when enabled; the counts of FAQ pages in §1.2 and the backlog apply once it is on.
 
+> **Also hidden (switches in `src/content/features.ts`):** `SERVICE_GUIDES_ENABLED` (§7.7) and `WORK_TAGS_ENABLED`, which controls the small tag chips (e.g. Branding, OOH, Influencer, Print) under the hero text of case-study pages (`WorkDetailHero.tsx`). The `/work` listing cards are unaffected.
+
 **What exists**
 
 | Piece | File | Notes |
@@ -453,9 +455,11 @@ Because media buying has a dedicated route, `media-buying/page.tsx` and `MediaBu
 - Manual SERP checks for the target questions (monthly): snippet owner, PAA presence, AI Overview citation list.
 - Third-party rank trackers that report featured-snippet and AI Overview ownership (Semrush, Ahrefs, SE Ranking, etc.).
 
-### 7.7 Service-page guides (**shipped**)
+### 7.7 Service-page guides (**built, currently hidden**)
 
-Each of the 10 service pages has a server-rendered "In depth" section between the process grid and the case studies.
+> **Status: hidden for now.** `SERVICE_GUIDES_ENABLED = false` in `src/content/features.ts` removes the section from every service page (`servicePages/index.ts` attaches `guide` only when the flag is on). The copy and component are intact; set it to `true` to publish. The word counts below and the page-depth figures elsewhere in this file describe the pages **with** the guides on; with them off the pages are back to ≈440–550 words.
+
+When enabled, each of the 10 service pages has a server-rendered "In depth" section between the process grid and the case studies.
 
 | Piece | File | Notes |
 |---|---|---|
@@ -730,7 +734,7 @@ Status key: **Done** = shipped and verified; **Open** = needs work; **Decision**
 | 24 | GTM/GA4/Search Console/Bing/IndexNow | Measurement | Open | **P0** | §10.1 |
 | 25 | Core Web Vitals baseline and fixes | SEO | Open | P1 | §6 |
 | 26 | Client-logo `<img alt>` for image-search | SEO | Optional | P3 | §3.8 |
-| 27 | Long-form "In depth" guide on each service page | AEO/SEO | **Done**; pages still shorter than peers (SEO ≈1,040 words; others 436–721) — deepen with reviewed content | P1 | §7.7 |
+| 27 | Long-form "In depth" guide on each service page | AEO/SEO | **Built, hidden** (`SERVICE_GUIDES_ENABLED = false`); when on, pages are still shorter than peers (SEO ≈1,040 words; others 436–721) — deepen with reviewed content | P1 | §7.7 |
 | 28 | Keyword-aware hub titles (About, Services, Work, Careers, Awards, Contact, Privacy) | SEO | **Done** | P1 | §3.6 |
 | 29 | Home hero: no clipping on tall/4K screens; hero follows the site container | UX/SEO | **Done** | P2 | §6 |
 | 30 | Insights hub; case-study question-led intros; fix third-party profiles and directory listings | SEO/GEO | Open | P1 | benchmark §6 |

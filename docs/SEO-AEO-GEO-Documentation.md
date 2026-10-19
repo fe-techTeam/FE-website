@@ -15,7 +15,7 @@
 | Area | Status |
 |---|---|
 | **SEO — site foundations** | **Done and tested.** All 38 pages are readable by search engines, with clean titles, descriptions, links to the old site and a sitemap. |
-| **SEO — content depth** | **Partly done.** Each service page has a new in-depth guide, but the pages are still shorter than competitors' (see section 3). |
+| **SEO — content depth** | **Written, switched off.** Each service page has a new in-depth guide ready, hidden for now. The pages themselves are still shorter than competitors' (see section 3). |
 | **AEO — answers** | **Written, switched off.** 61 question-and-answer blocks are ready and waiting for your review. |
 | **GEO — AI visibility** | **Done in the website; outside work remains.** AI tools are allowed in, and brand facts are consistent on the site. Listings and profiles elsewhere on the web still need fixing. |
 | **Going live** | **Not started.** The main address (www.firsteconomy.com) still shows the old website. |
@@ -41,7 +41,7 @@
 - **Brand facts are consistent.** The team size is now pulled from one place on the site, and contact emails use one domain (firsteconomy.com).
 
 ### Answer-ready content (AEO)
-- **An "In depth" guide on each of the 10 service pages**, written as plain questions and answers (for example "What is 360° media buying?" and "How is success measured?"). They use only claims already on your site, with no prices, timelines or guarantees.
+- **An "In depth" guide written for each of the 10 service pages**, in plain question-and-answer form (for example "What is 360° media buying?" and "How is success measured?"). They use only claims already on your site, with no prices, timelines or guarantees. They are **switched off for now**, as requested, and can be turned on after review.
 - **61 FAQ answers written** for the service pages, the home page and the About page. They are **switched off for now**, as requested, and can be turned on once you have reviewed them.
 
 ### AI visibility (GEO)
@@ -64,6 +64,7 @@
 | 1 | **Approval to go live**: connect www.firsteconomy.com to the new site. | This replaces the old website, so it needs your sign-off and a planned moment. |
 | 2 | **The `/proposal/` folder (confirmed in use): please send us the folder as it is on the old server**, and tell us whether the links are single files (for example `/proposal/name.html`) or folders (`/proposal/name/`). | The website is ready to serve the files unchanged and keep them out of search, as the old site did. We only need the files. If the pages link to other old-site folders such as `/img/` or `/css/`, we need those too, or they will appear broken. |
 | 3 | **Review and approve the written content**: the 61 FAQ answers and the 10 service guides. | We wrote them from your own site, but someone who knows the services should confirm accuracy and tone before they go public. |
+| 3b | **Decide when to show the hidden items**: the FAQ answers and the service guides (both switched off), and the small tag labels (Branding, OOH, Influencer, Print) on case-study pages (hidden at your request). | Each can be switched back on with a one-line change once you are ready. |
 | 4 | **Real posting dates for the 5 job roles**, and closing dates where they exist. | Today they show the date each role was added to the site (27 Aug 2026), which may not be accurate. |
 | 5 | **A shared inbox for public use** (such as hello@) in place of a named person's address. Please also confirm hello@ and careers@ firsteconomy.com exist and receive email. | The company's public details currently show one person's email. |
 | 6 | **Full Bengaluru and Pune street addresses with pincodes.** | They are incomplete, which weakens local search. |
