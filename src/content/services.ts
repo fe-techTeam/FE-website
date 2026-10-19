@@ -101,7 +101,7 @@ export const services: Service[] = [
       "Influencer media amplification",
       "Reporting",
     ],
-    caseStudySlugs: ["amazon-samsung-great-indian-festival", "adani-airports-safar-ke-humsafar", "royale-touche-stay-curious", "godrej-blue"],
+    caseStudySlugs: ["amazon-samsung-great-indian-festival", "adani-airports-safar-ke-humsafar", "royale-touche-stay-curious"],
     family: "social-creator",
   },
   {

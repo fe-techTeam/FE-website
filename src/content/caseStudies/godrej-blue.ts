@@ -5,7 +5,7 @@ export const godrejBlue: CaseStudy = {
     client: "Godrej Properties",
     campaign: "Godrej Blue",
     industry: "real-estate",
-    services: ["branding", "influencer-marketing"],
+    services: ["branding"],
     hero: "Making Godrej Blue the symbol of Godrej Properties grand arrival in Kolkata, with citywide top of mind recall.",
     challenge: "Make the launch synonymous with Godrej Properties' entry into Kolkata and create citywide top-of-mind recall.",
     objective: "To make the launch of Godrej Blue synonymous with Godrej Properties’s grand entry into Kolkata. The ambition is not just project awareness, but citywide TOM recall — ensuring Kolkata collectively recognizes that Godrej Properties has arrived meaningfully.",

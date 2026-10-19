@@ -153,7 +153,7 @@ export const serviceGuides: Record<string, ServiceGuide> = {
       {
         heading: "What results has it delivered?",
         paragraphs: [
-          "For Amazon and Samsung’s Great Indian Festival 2025, an influencer campaign positioned the Galaxy M36 5G as the best-value 5G smartphone under ₹15K. For Royale Touché, large influencer activations were one part of a #StayCurious campaign built to drive footfall to 200+ Experience Centres. For Godrej Properties, creators helped make Godrej Blue the symbol of the brand’s arrival in Kolkata.",
+          "For Amazon and Samsung’s Great Indian Festival 2025, an influencer campaign positioned the Galaxy M36 5G as the best-value 5G smartphone under ₹15K. For Royale Touché, large influencer activations were one part of a #StayCurious campaign built to drive footfall to 200+ Experience Centres.",
         ],
       },
       {
