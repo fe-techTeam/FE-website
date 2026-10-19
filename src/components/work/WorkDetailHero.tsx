@@ -12,6 +12,7 @@ import {
 } from "@/content/deviceShowcases";
 import type { WorkDetailModel } from "@/content/workDetail";
 import { workHero } from "@/content/workPage";
+import { WORK_TAGS_ENABLED } from "@/content/features";
 
 type WorkDetailHeroProps = {
   caseStudy: WorkDetailModel["caseStudy"];
@@ -97,17 +98,19 @@ export default function WorkDetailHero({
       body={caseStudy.hero}
       bodyClassName="text-body section-copy section-copy-on-light mt-5 mb-0 max-w-[32rem] sm:mt-6"
       copyAfterBody={
-        <ul
-          data-animate="hero-copy"
-          className="mt-6 mb-0 flex list-none flex-wrap gap-2 p-0"
-          aria-label="Campaign tags"
-        >
-          {tags.map((tag) => (
-            <li key={tag} className="insight-tag border border-line px-3 py-1 text-ink">
-              {tag}
-            </li>
-          ))}
-        </ul>
+        WORK_TAGS_ENABLED ? (
+          <ul
+            data-animate="hero-copy"
+            className="mt-6 mb-0 flex list-none flex-wrap gap-2 p-0"
+            aria-label="Campaign tags"
+          >
+            {tags.map((tag) => (
+              <li key={tag} className="insight-tag border border-line px-3 py-1 text-ink">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        ) : undefined
       }
       gridClassName={
         heroImage.fit === "contain" || heroClip

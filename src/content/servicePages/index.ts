@@ -1,4 +1,4 @@
-import { FAQS_ENABLED } from "@/content/features";
+import { FAQS_ENABLED, SERVICE_GUIDES_ENABLED } from "@/content/features";
 import { serviceFaqs } from "@/content/servicePages/faqs";
 import { serviceGuides } from "@/content/servicePages/guides";
 import { aiSolutionsPage } from "@/content/servicePages/ai-solutions";
@@ -28,7 +28,7 @@ const basePages: ServicePageContent[] = [
   aiSolutionsPage,
 ];
 
-const pages: ServicePageContent[] = basePages.map((page) => ({ ...page, faq: FAQS_ENABLED ? serviceFaqs[page.slug] : undefined, guide: serviceGuides[page.slug] }));
+const pages: ServicePageContent[] = basePages.map((page) => ({ ...page, faq: FAQS_ENABLED ? serviceFaqs[page.slug] : undefined, guide: SERVICE_GUIDES_ENABLED ? serviceGuides[page.slug] : undefined }));
 
 export const servicePagesBySlug: Record<string, ServicePageContent> = Object.fromEntries(
   pages.map((page) => [page.slug, page]),
