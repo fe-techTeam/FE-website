@@ -54,9 +54,16 @@ const filterServiceSlugs: Partial<Record<Exclude<WorkFilterKey, "all">, string[]
 };
 
 /** A case matches a tab by its badge OR by any of its service tags — one badge, many filters. */
+/**
+ * Cases that belong ONLY to the tab matching their card badge. They are not also listed under the tabs of the
+ * individual services they used (e.g. Royale Touché is an Integrated Campaign, not an SEO / Social / Influencer case).
+ */
+const badgeOnlyFilterCases = new Set(["royale-touche-stay-curious"]);
+
 export function matchesWorkFilter(caseStudy: CaseStudy, key: WorkFilterKey) {
   if (key === "all") return true;
   if (workCardTag(caseStudy) === filterTagLabels[key]) return true;
+  if (badgeOnlyFilterCases.has(caseStudy.slug)) return false;
   return (filterServiceSlugs[key] ?? []).some((slug) => caseStudy.services.includes(slug));
 }
 
