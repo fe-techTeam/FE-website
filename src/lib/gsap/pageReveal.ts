@@ -63,7 +63,8 @@ type SectionRevealOptions = {
   start?: string;
 };
 
-export function runSectionReveals({ start = "top 78%" }: SectionRevealOptions = {}) {
+// Reveals stay short (<= 400ms, <= 60ms stagger) and start early, so a fast scroller never sees empty bands.
+export function runSectionReveals({ start = "top 85%" }: SectionRevealOptions = {}) {
   gsap.utils.toArray<HTMLElement>("[data-animate-section]").forEach((section) => {
     const intro = section.querySelectorAll("[data-animate='fade-up']");
     const staggerRoots = section.querySelectorAll("[data-animate-stagger]");
@@ -91,8 +92,8 @@ export function runSectionReveals({ start = "top 78%" }: SectionRevealOptions = 
         {
           y: 0,
           autoAlpha: 1,
-          duration: 0.75,
-          stagger: 0.1,
+          duration: 0.4,
+          stagger: 0.06,
           clearProps: "transform",
           immediateRender: false,
         },
@@ -106,12 +107,12 @@ export function runSectionReveals({ start = "top 78%" }: SectionRevealOptions = 
         {
           y: 0,
           autoAlpha: 1,
-          duration: 0.55,
-          stagger: 0.06,
+          duration: 0.4,
+          stagger: 0.05,
           clearProps: "transform",
           immediateRender: false,
         },
-        intro.length ? "-=0.35" : 0,
+        intro.length ? "-=0.25" : 0,
       );
     }
   });

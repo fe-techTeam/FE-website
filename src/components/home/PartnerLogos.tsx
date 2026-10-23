@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Pause, Play } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { clientLogos, type PartnerLogo } from "@/content/partners";
@@ -31,7 +31,6 @@ function PartnerLogoFrame({ partner, alt, sizes, imageClassName = "" }: PartnerL
         alt={alt}
         width={partner.width}
         height={partner.height}
-        unoptimized
         sizes={sizes}
         className={`h-auto max-h-full w-auto max-w-full object-contain ${imageClassName}`.trim()}
       />
@@ -42,7 +41,14 @@ function PartnerLogoFrame({ partner, alt, sizes, imageClassName = "" }: PartnerL
   const { width: iw, height: ih, src } = partner;
 
   // SVG viewBox crops to contentBox optically; preserveAspectRatio fills the cell without overflow.
-  // Original PNG bytes are unchanged — only display framing.
+  // The 800x500 source PNG is far larger than the ~250px cell, so the bitmap comes from the image optimizer
+  // (AVIF/WebP at 384px). It still paints into the original iw x ih space, so the viewBox crop is unchanged.
+  const { props: optimized } = getImageProps({
+    src,
+    alt: "",
+    width: 192,
+    height: Math.round((192 * ih) / iw),
+  });
   return (
     <svg
       viewBox={`${x0} ${y0} ${cw} ${ch}`}
@@ -53,7 +59,7 @@ function PartnerLogoFrame({ partner, alt, sizes, imageClassName = "" }: PartnerL
       aria-hidden={alt === "" ? true : undefined}
     >
       {alt ? <title>{alt}</title> : null}
-      <image href={src} width={iw} height={ih} preserveAspectRatio="none" />
+      <image href={optimized.src} width={iw} height={ih} preserveAspectRatio="none" />
     </svg>
   );
 }
@@ -114,12 +120,22 @@ function PartnerLogoGrid() {
 function MarqueeRow({
   items,
   direction,
+  paused,
 }: {
   items: PartnerLogo[];
   direction: "left" | "right";
+  paused: boolean;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
+  const tweenRef = useRef<gsap.core.Tween | undefined>(undefined);
+  const pausedRef = useRef(paused);
+
+  // The visible pause button (WCAG 2.2.2) drives the same tween as the hover pause.
+  useEffect(() => {
+    pausedRef.current = paused;
+    tweenRef.current?.paused(paused);
+  }, [paused]);
 
   const copies = 3;
 
@@ -158,7 +174,8 @@ function MarqueeRow({
           const toX = direction === "right" ? 0 : -setWidth;
 
           gsap.set(track, { x: fromX });
-          tween = gsap.to(track, {
+          tween = tweenRef.current = gsap.to(track, {
+            paused: pausedRef.current,
             x: toX,
             // Slower crawl (~28px/s instead of ~45px/s) so more logos stay
             // on screen at once during a typical glance at the section.
@@ -191,7 +208,9 @@ function MarqueeRow({
         });
 
         const pause = () => tween?.pause();
-        const play = () => tween?.play();
+        const play = () => {
+          if (!pausedRef.current) tween?.play();
+        };
         viewport.addEventListener("pointerenter", pause);
         viewport.addEventListener("pointerleave", play);
 
@@ -235,6 +254,7 @@ type PartnerLogosProps = {
 
 export default function PartnerLogos({ sectionId = "partners", layout = "marquee" }: PartnerLogosProps) {
   const isAboutGrid = layout === "grid";
+  const [paused, setPaused] = useState(false);
 
   return (
     <section
@@ -248,10 +268,21 @@ export default function PartnerLogos({ sectionId = "partners", layout = "marquee
             Trusted by
           </h2>
           {!isAboutGrid ? (
-            <Link href="/about#trusted-by" className="text-cta link-cta text-ink">
-              View all partners
-              <ArrowRight size={16} aria-hidden />
-            </Link>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <button
+                type="button"
+                onClick={() => setPaused((value) => !value)}
+                aria-pressed={paused}
+                className="text-cta inline-flex min-h-11 cursor-pointer items-center gap-2 text-ink transition hover:text-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red"
+              >
+                {paused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
+                {paused ? "Play logo scroll" : "Pause logo scroll"}
+              </button>
+              <Link href="/about#trusted-by" className="text-cta link-cta text-ink">
+                View all partners
+                <ArrowRight size={16} aria-hidden />
+              </Link>
+            </div>
           ) : null}
         </div>
 
@@ -267,8 +298,8 @@ export default function PartnerLogos({ sectionId = "partners", layout = "marquee
               ))}
             </ul>
             <div aria-hidden="true" className="flex flex-col gap-3 sm:gap-4">
-              <MarqueeRow items={rowLeft} direction="left" />
-              <MarqueeRow items={rowRight} direction="right" />
+              <MarqueeRow items={rowLeft} direction="left" paused={paused} />
+              <MarqueeRow items={rowRight} direction="right" paused={paused} />
             </div>
           </div>
         )}

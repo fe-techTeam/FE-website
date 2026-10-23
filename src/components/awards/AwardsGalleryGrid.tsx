@@ -28,8 +28,8 @@ function AwardCard({ award }: { award: AwardGalleryItem }) {
             role="img"
             aria-label={`${award.image.alt} (placeholder)`}
           >
-            <span className="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">Image</span>
-            <span className="mt-1.5 text-xs leading-snug text-white/60">{award.image.label}</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">Image</span>
+            <span className="mt-1.5 text-xs leading-snug text-white/75">{award.image.label}</span>
           </div>
         )}
       </div>

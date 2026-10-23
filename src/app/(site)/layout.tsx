@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ButtonMotion from "@/components/ButtonMotion";
+import CookieConsent from "@/components/CookieConsent";
 import Preloader from "@/components/Preloader";
 import WorkCaseTransition from "@/components/work/WorkCaseTransition";
 import PreviewBanner from "@/components/admin/PreviewBanner";
@@ -28,6 +29,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         {children}
       </main>
       <Footer />
+      <CookieConsent />
       <ButtonMotion />
       <WorkCaseTransition />
     </>

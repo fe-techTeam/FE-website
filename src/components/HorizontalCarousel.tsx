@@ -14,8 +14,8 @@ type HorizontalCarouselProps = {
   getSlideLabel?: (index: number) => string;
   liveRegion?: (active: number, itemCount: number) => string;
   controls?: CarouselControls;
-  /** Upper places arrows on the card image (dark and light controls) */
-  arrowPosition?: "center" | "upper";
+  /** Upper places arrows on the card image (dark and light controls); below puts them in a row under the track, clear of the images */
+  arrowPosition?: "center" | "upper" | "below";
   dotsClassName?: string;
   arrowIconSize?: number;
   trackClassName?: string;
@@ -66,8 +66,13 @@ const controlStyles = {
   },
 } as const;
 
-function arrowClassName(controls: CarouselControls, arrowPosition: "center" | "upper", side: "left" | "right") {
+function arrowClassName(controls: CarouselControls, arrowPosition: "center" | "upper" | "below", side: "left" | "right") {
   const styles = controlStyles[controls];
+
+  // In the row below the track the arrows flow normally instead of floating over the images.
+  if (arrowPosition === "below") {
+    return styles.arrow.replace("absolute", "relative").replace("-translate-y-1/2", "").replace("top-[42%]", "");
+  }
 
   if (controls === "dark-inset") {
     return `${styles.arrow} ${side === "left" ? styles.arrowLeft : styles.arrowRight}`;
@@ -147,6 +152,33 @@ export default function HorizontalCarousel({
     liveRegion?.(active, itemCount) ??
     (currentSlideLabel ? `Showing ${currentSlideLabel}` : undefined);
 
+  const arrowButtons = (
+    <>
+      <button
+        type="button"
+        aria-label={prevLabel}
+        aria-disabled={atStart}
+        disabled={atStart}
+        data-no-btn-motion
+        onClick={() => scrollByDir(-1)}
+        className={arrowClassName(controls, arrowPosition, "left")}
+      >
+        <ArrowLeft size={arrowIconSize} aria-hidden />
+      </button>
+      <button
+        type="button"
+        aria-label={nextLabel}
+        aria-disabled={atEnd}
+        disabled={atEnd}
+        data-no-btn-motion
+        onClick={() => scrollByDir(1)}
+        className={arrowClassName(controls, arrowPosition, "right")}
+      >
+        <ArrowRight size={arrowIconSize} aria-hidden />
+      </button>
+    </>
+  );
+
   return (
     <div className={className}>
       <div
@@ -168,28 +200,11 @@ export default function HorizontalCarousel({
 
       {canScroll ? (
         <>
-          <button
-            type="button"
-            aria-label={prevLabel}
-            aria-disabled={atStart}
-            disabled={atStart}
-            data-no-btn-motion
-            onClick={() => scrollByDir(-1)}
-            className={arrowClassName(controls, arrowPosition, "left")}
-          >
-            <ArrowLeft size={arrowIconSize} aria-hidden />
-          </button>
-          <button
-            type="button"
-            aria-label={nextLabel}
-            aria-disabled={atEnd}
-            disabled={atEnd}
-            data-no-btn-motion
-            onClick={() => scrollByDir(1)}
-            className={arrowClassName(controls, arrowPosition, "right")}
-          >
-            <ArrowRight size={arrowIconSize} aria-hidden />
-          </button>
+          {arrowPosition === "below" ? (
+            <div className="mt-5 flex items-center justify-center gap-3 sm:mt-6">{arrowButtons}</div>
+          ) : (
+            arrowButtons
+          )}
 
           {showDots ? (
             <div className={dotsClassName} role="group" aria-label={slidesGroupLabel}>

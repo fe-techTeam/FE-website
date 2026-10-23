@@ -162,6 +162,11 @@ export default function WorkCaseTransition() {
 
     const unsubscribeStart = onWorkTransitionStart((payload) => {
       if (runningRef.current) return;
+      // People who ask for less motion get a plain page change instead of the card-to-hero flip.
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        router.push(payload.href);
+        return;
+      }
       runningRef.current = true;
       payloadRef.current = payload;
       markWorkFlipActive(payload.slug);

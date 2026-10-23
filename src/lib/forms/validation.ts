@@ -4,6 +4,12 @@ export function isValidEmail(value: string): boolean {
   return EMAIL_PATTERN.test(value.trim());
 }
 
+/** Optional phone: 6-15 digits once spaces, dashes and brackets are ignored (E.164 allows up to 15). */
+export function isValidPhone(value: string): boolean {
+  const digits = value.replace(/[\s\-().]/g, "").replace(/^\+/, "");
+  return /^\d{6,15}$/.test(digits);
+}
+
 export function trimRequired(value: unknown, fieldLabel: string): string | { error: string } {
   const trimmed = String(value ?? "").trim();
   if (!trimmed) return { error: `Enter your ${fieldLabel.toLowerCase()}.` };
@@ -19,6 +25,8 @@ export const FIELD_LIMITS = {
   name: 120,
   email: 254,
   phone: 30,
+  budget: 60,
+  timeline: 60,
   company: 160,
   interest: 120,
   requirement: 4000,

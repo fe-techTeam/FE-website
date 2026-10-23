@@ -1,6 +1,7 @@
+import { AI_SOLUTIONS_ENABLED } from "@/content/features";
 import type { Service } from "@/content/types";
 
-export const services: Service[] = [
+const allServices: Service[] = [
   {
     slug: "media-buying",
     name: "360° Media Buying",
@@ -236,3 +237,8 @@ export const services: Service[] = [
     family: "ai",
   },
 ];
+
+/** Case studies link to these, so a hidden service must not appear here either (see features.ts). */
+export const services: Service[] = allServices.filter(
+  (service) => AI_SOLUTIONS_ENABLED || service.slug !== "ai-solutions",
+);

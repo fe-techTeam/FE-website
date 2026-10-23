@@ -33,6 +33,12 @@ function isHomePath(pathname: string | null) {
 const PRELOAD_ATTR = "data-preload";
 const SEEN_KEY = "fe-preloaded";
 
+/** Audit UX-02: the whole overlay lasts about 0.6s (0.35s count + 0.25s fade). It never waits for the window
+ *  `load` event, so a slow network can't extend it, and the timeout below covers a stalled background tab. */
+const COUNT_SECONDS = 0.35;
+const FADE_SECONDS = 0.25;
+const MAX_HOLD_MS = 1500;
+
 function hasSeenPreloader() {
   try {
     return window.sessionStorage.getItem(SEEN_KEY) === "1";
@@ -65,8 +71,12 @@ export default function Preloader() {
   useEffect(() => {
     prevPathRef.current = pathname;
 
+    // The pre-paint script hides the overlay after 1s when hydration is slow; don't re-show it afterwards.
+    const timedOut = (window as Window & { __feSkipPreload?: number }).__feSkipPreload === 1;
+    if (timedOut) markPreloaderSeen();
+
     // Once per browser session, on the home page only — never re-gate content on return visits.
-    if (!isHomePath(pathname) || hasSeenPreloader()) {
+    if (timedOut || !isHomePath(pathname) || hasSeenPreloader()) {
       setVisible(false);
       setActive(false);
       document.documentElement.removeAttribute(PRELOAD_ATTR);
@@ -94,29 +104,37 @@ export default function Preloader() {
       if (percentRef.current) percentRef.current.textContent = "0%";
       gsap.set(rootRef.current, { autoAlpha: 1 });
 
+      let done = false;
+      const dismiss = () => {
+        if (done) return;
+        done = true;
+        markPreloaderSeen();
+        document.documentElement.removeAttribute(PRELOAD_ATTR);
+        setVisible(false);
+        setActive(false);
+        document.body.style.overflow = "";
+      };
+
       const finish = () => {
         gsap.to(rootRef.current, {
           autoAlpha: 0,
-          duration: 0.55,
+          duration: FADE_SECONDS,
           ease: "power2.inOut",
-          onComplete: () => {
-            markPreloaderSeen();
-            document.documentElement.removeAttribute(PRELOAD_ATTR);
-            setVisible(false);
-            setActive(false);
-            document.body.style.overflow = "";
-          },
+          onComplete: dismiss,
         });
       };
 
+      // People who ask for less motion get the page straight away, with no overlay at all.
       if (reduce) {
-        finish();
+        dismiss();
         return;
       }
 
+      // rAF-driven tweens stall in a background tab; a plain timer still fires, so the overlay can't stick.
+      const failsafe = window.setTimeout(dismiss, MAX_HOLD_MS);
+
       gsap.set("[data-preloader-ring]", { autoAlpha: 0, scale: 0.92, transformOrigin: "50% 50%" });
       gsap.set("[data-preloader-streak]", { autoAlpha: 0, scaleX: 0, transformOrigin: "0% 50%" });
-      gsap.set("[data-preloader-center]", { autoAlpha: 0, y: 8 });
       gsap.set(progressRef.current, {
         strokeDasharray: CIRCUMFERENCE,
         strokeDashoffset: CIRCUMFERENCE,
@@ -124,15 +142,14 @@ export default function Preloader() {
 
       const intro = gsap.timeline();
       intro
-        .to("[data-preloader-ring]", { autoAlpha: 1, scale: 1, duration: 0.9, stagger: 0.06, ease: "power3.out" })
+        .to("[data-preloader-ring]", { autoAlpha: 1, scale: 1, duration: 0.3, stagger: 0.02, ease: "power3.out" })
         .to("[data-preloader-streak]", {
           autoAlpha: 1,
           scaleX: 1,
-          duration: 0.7,
-          stagger: 0.04,
+          duration: 0.25,
+          stagger: 0.02,
           ease: "power2.out",
-        }, "-=0.5")
-        .to("[data-preloader-center]", { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" }, "-=0.35");
+        }, "-=0.25");
 
       gsap.to("[data-preloader-particle]", {
         x: "+=18",
@@ -150,35 +167,26 @@ export default function Preloader() {
         ease: "power1.in",
       });
 
-      const loadPromise = new Promise<void>((resolve) => {
-        if (document.readyState === "complete") {
-          resolve();
-          return;
-        }
-        window.addEventListener("load", () => resolve(), { once: true });
+      // The count starts at once and is time-based (not tied to real loading), then the overlay fades.
+      gsap.to(progress, {
+        value: 100,
+        duration: COUNT_SECONDS,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          const pct = Math.round(progress.value);
+          if (percentRef.current) percentRef.current.textContent = `${pct}%`;
+          const offset = CIRCUMFERENCE * (1 - progress.value / 100);
+          gsap.set(progressRef.current, { strokeDashoffset: offset });
+
+          const dotPos = polarDeg(200, 200, PROGRESS_R, (progress.value / 100) * 360);
+          gsap.set(dotGroupRef.current, {
+            attr: { transform: `translate(${dotPos.x} ${dotPos.y})` },
+          });
+        },
+        onComplete: finish,
       });
 
-      const minDelay = new Promise<void>((resolve) => setTimeout(resolve, 900));
-
-      Promise.all([loadPromise, minDelay]).then(() => {
-        gsap.to(progress, {
-          value: 100,
-          duration: 0.7,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            const pct = Math.round(progress.value);
-            if (percentRef.current) percentRef.current.textContent = `${pct}%`;
-            const offset = CIRCUMFERENCE * (1 - progress.value / 100);
-            gsap.set(progressRef.current, { strokeDashoffset: offset });
-
-            const dotPos = polarDeg(200, 200, PROGRESS_R, (progress.value / 100) * 360);
-            gsap.set(dotGroupRef.current, {
-              attr: { transform: `translate(${dotPos.x} ${dotPos.y})` },
-            });
-          },
-          onComplete: finish,
-        });
-      });
+      return () => window.clearTimeout(failsafe);
     },
     { scope: rootRef, dependencies: [active] },
   );
@@ -311,6 +319,9 @@ export default function Preloader() {
             stroke="#d22525"
             strokeWidth={2.5}
             strokeLinecap="round"
+            // Start empty in the markup itself; otherwise the arc is a full red ring until the script runs.
+            strokeDasharray={roundCoord(CIRCUMFERENCE)}
+            strokeDashoffset={roundCoord(CIRCUMFERENCE)}
             transform={`rotate(-90 ${cx} ${cy})`}
             filter="url(#preloader-glow)"
           />

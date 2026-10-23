@@ -23,6 +23,9 @@ function shareImage(slug: string) {
   return workPhotos[slug] ? `/images/og/cases/${slug}.jpg` : undefined;
 }
 
+// Unknown slugs 404 before anything renders; otherwise loading.tsx streams a 200 first (a soft 404).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return caseStudies.map((c) => ({ slug: c.slug }));
 }

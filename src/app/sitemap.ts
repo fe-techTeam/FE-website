@@ -5,7 +5,7 @@ import { servicePageSlugs } from "@/content/servicePages";
 import { getCareerRoles } from "@/lib/careers";
 import { absoluteUrl, isNoIndex } from "@/lib/seo";
 
-const STATIC_PATHS = ["/", "/about", "/services", "/work", "/careers", "/awards", "/contact", "/privacy-policy"];
+const STATIC_PATHS = ["/", "/about", "/services", "/work", "/careers", "/awards", "/contact", "/privacy-policy", "/terms-of-use", "/cookie-policy"];
 
 /** Filter URLs (e.g. /work?service=seo) are intentionally excluded — only canonical pages are listed. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

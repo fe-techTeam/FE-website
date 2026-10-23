@@ -4,7 +4,7 @@ import ServicesPage from "@/components/services/ServicesPage";
 export const metadata: Metadata = {
   title: "Integrated Marketing Services in India",
   description:
-    "From strategy to execution — branding, performance marketing, creative, digital experience, e-commerce, social and analytics engineered as one growth system.",
+    "Media buying, video, branding, influencer marketing, marketplaces, technology, creative, social, SEO/AEO/GEO and AI, run as one integrated growth system.",
 };
 
 export default function Page() {

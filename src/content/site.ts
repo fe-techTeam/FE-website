@@ -12,6 +12,8 @@ export const contactInfo = {
   phoneHref: "tel:+919664859850",
   email: "bilal@firsteconomy.com",
   emailHref: "mailto:bilal@firsteconomy.com",
+  // Click-to-chat on the main business line (same number as `phone`); wa.me wants digits only.
+  whatsappHref: "https://wa.me/919664859850?text=Hi%20First%20Economy%2C%20I%27d%20like%20to%20talk%20about%20growth.",
 };
 
 export const footerCta = {

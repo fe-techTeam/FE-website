@@ -18,3 +18,11 @@ export const SERVICE_GUIDES_ENABLED = false;
  * case-study page. Hidden for now; set to `true` to show them again.
  */
 export const WORK_TAGS_ENABLED = false;
+
+/**
+ * AI_SOLUTIONS_ENABLED shows the AI Solutions service: its card in the services grid, footer, llms.txt and schema,
+ * its contact-form option, its sitemap entry and the /services/ai-solutions page itself (a 404 while hidden), and its
+ * link from case studies. Hidden for now; all copy is kept, so set this to `true` to bring it back.
+ */
+export const AI_SOLUTIONS_ENABLED = false;
+

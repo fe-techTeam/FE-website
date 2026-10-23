@@ -58,22 +58,12 @@ export const socialMediaPage: ServicePageContent = {
         body: "AI and CGI videos built for social platforms.",
         icon: placeholderIcon("Advanced Visuals"),
       },
+      // "Branding & Collaterals" and "Innovation" are hidden here for now; they now live on the Creative Solutions page
+      // (see creative.ts). To show them here again, restore these two cards and renumber the steps:
+      // { number: "03", id: "branding-collaterals", title: "Branding & Collaterals", body: "Logo and brand identity, brand books and guidelines, brochures, flipcharts, coffee-table books and merchandise design for brand partnerships.", icon: placeholderIcon("Branding & Collaterals") },
+      // { number: "04", id: "innovation", title: "Innovation", body: "Innovation ideation and mockups.", icon: placeholderIcon("Innovation") },
       {
         number: "03",
-        id: "branding-collaterals",
-        title: "Branding & Collaterals",
-        body: "Logo and brand identity, brand books and guidelines, brochures, flipcharts, coffee-table books and merchandise design for brand partnerships.",
-        icon: placeholderIcon("Branding & Collaterals"),
-      },
-      {
-        number: "04",
-        id: "innovation",
-        title: "Innovation",
-        body: "Innovation ideation and mockups.",
-        icon: placeholderIcon("Innovation"),
-      },
-      {
-        number: "05",
         id: "creative-production",
         title: "Creative & Production",
         body: "Graphic and video production for digital, lo-fi videos, digital ad creatives and scriptwriting & storyboarding.",

@@ -14,6 +14,8 @@ export const pageLastModified: Record<string, string> = {
   "/awards": "2026-10-06",
   "/contact": "2026-10-06",
   "/privacy-policy": "2026-10-06",
+  "/terms-of-use": "2026-10-23",
+  "/cookie-policy": "2026-10-23",
   "/services/ai-solutions": "2026-10-06",
   "/services/branding": "2026-10-06",
   "/services/creative": "2026-10-06",
