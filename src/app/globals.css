@@ -18,3 +18,10 @@
 html[data-preload="1"] .fe-preloader {
   display: flex;
 }
+/* Starting look, before the script runs: rings and streaks wait to fade in, while the logo and 0% are already
+   there, so the first frame is a clean white screen with the brand mark, not a flash of half-drawn rings.
+   GSAP sets inline opacity as each part animates in, which overrides these. */
+.fe-preloader [data-preloader-ring],
+.fe-preloader [data-preloader-streak] {
+  opacity: 0;
+}

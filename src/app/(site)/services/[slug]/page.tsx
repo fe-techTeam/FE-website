@@ -5,6 +5,9 @@ import ServiceDetailPage from "@/components/services/ServiceDetailPage";
 import { getServicePageContent, servicePageSlugs } from "@/content/servicePages";
 import { faqPageJsonLd, serviceJsonLd } from "@/lib/seo";
 
+// Unknown slugs 404 before anything renders; otherwise loading.tsx streams a 200 first (a soft 404).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return servicePageSlugs
     .filter((slug) => slug !== "media-buying")

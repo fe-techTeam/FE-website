@@ -7,6 +7,8 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import AnimatedMenuButton from "@/components/AnimatedMenuButton";
 import GrowthCta from "@/components/GrowthCta";
 import MobileNavSidebar from "@/components/MobileNavSidebar";
+import { WhatsAppIcon } from "@/components/SocialIcons";
+import WhatsAppLink from "@/components/WhatsAppLink";
 
 const primaryNav = [
   { label: "About", href: "/about" },
@@ -144,6 +146,13 @@ export default function Header() {
           </nav>
 
           <div className="relative z-[121] flex flex-none items-center gap-1.5 sm:gap-3">
+            <WhatsAppLink
+              location="header"
+              aria-label="Chat with us on WhatsApp (opens in a new tab)"
+              className="grid h-11 w-11 place-items-center rounded-full text-ink transition hover:text-red focus-visible:text-red"
+            >
+              <WhatsAppIcon size={22} />
+            </WhatsAppLink>
             <GrowthCta href="/contact" variant="primary" compact className="max-[360px]:hidden!">
               Let&rsquo;s talk
             </GrowthCta>

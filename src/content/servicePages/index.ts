@@ -1,4 +1,4 @@
-import { FAQS_ENABLED, SERVICE_GUIDES_ENABLED } from "@/content/features";
+import { AI_SOLUTIONS_ENABLED, FAQS_ENABLED, SERVICE_GUIDES_ENABLED } from "@/content/features";
 import { serviceFaqs } from "@/content/servicePages/faqs";
 import { serviceGuides } from "@/content/servicePages/guides";
 import { aiSolutionsPage } from "@/content/servicePages/ai-solutions";
@@ -25,7 +25,7 @@ const basePages: ServicePageContent[] = [
   creativePage,
   socialMediaPage,
   seoPage,
-  aiSolutionsPage,
+  ...(AI_SOLUTIONS_ENABLED ? [aiSolutionsPage] : []),
 ];
 
 const pages: ServicePageContent[] = basePages.map((page) => ({ ...page, faq: FAQS_ENABLED ? serviceFaqs[page.slug] : undefined, guide: SERVICE_GUIDES_ENABLED ? serviceGuides[page.slug] : undefined }));

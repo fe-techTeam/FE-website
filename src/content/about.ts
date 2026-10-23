@@ -615,12 +615,12 @@ export const campaignAwards: CampaignAward[] = [
   },
   {
     client: "Netroid Ranks",
-    organization: "MOBEX Summit Awards",
+    organization: "MOBEXX Summit Awards",
     accolade: "Mobile Advertising Excellence & Performance Campaign (Bronze)",
-    category: "MOBEX Summit Awards.",
+    category: "MOBEXX Summit Awards.",
     image: {
       src: "/images/about/awards/netroid-ranks-mobex-performance.png",
-      alt: "Netroid Ranks MOBEX Summit Awards trophy",
+      alt: "Netroid Ranks MOBEXX Summit Awards trophy",
       label: "Netroid Ranks",
       fit: "contain",
       grayscale: false,

@@ -10,10 +10,12 @@ import {
   getFirstDetailSectionId,
   getRelatedCareerRoles,
 } from "@/lib/careers";
-import { jobPostingJsonLd } from "@/lib/seo";
-import { getSiteUrl } from "@/lib/site-url";
+import { SITE_URL, jobPostingJsonLd } from "@/lib/seo";
 
-export const dynamicParams = true;
+// Unknown slugs 404 before anything renders; otherwise loading.tsx streams a 200 first (a soft 404).
+// Roles are static data today, so every live slug is prebuilt. If roles move to a CMS, flip this back to true
+// and handle the missing-role case before the first await that can suspend.
+export const dynamicParams = false;
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
@@ -47,17 +49,16 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [role, detail, relatedRoles, siteUrl] = await Promise.all([
+  const [role, detail, relatedRoles] = await Promise.all([
     getCareerRoleBySlug(slug),
     getCareerRoleDetail(slug),
     getRelatedCareerRoles(slug),
-    getSiteUrl(),
   ]);
 
   if (!role || !detail) notFound();
 
   const sectionTabs = getCareerDetailTabs(detail);
-  const shareUrl = `${siteUrl}/careers/${slug}`;
+  const shareUrl = `${SITE_URL}/careers/${slug}`;
 
   return (
     <>

@@ -160,6 +160,7 @@ export default function CareersPage({ roles }: CareersPageProps) {
                         href={role.href ?? getCareerRoleHref(role.slug)}
                         tabIndex={-1}
                         aria-hidden
+                        aria-label={`Apply for ${role.title}`}
                         className="ml-auto grid h-11 w-11 place-items-center rounded-full bg-ink text-white transition group-hover:bg-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red"
                       >
                         <ArrowRight size={16} strokeWidth={2} aria-hidden />

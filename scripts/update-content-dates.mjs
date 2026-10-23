@@ -36,6 +36,8 @@ const pages = {
   "/awards": ["src/components/awards", "src/content/awards.ts", "src/app/(site)/awards"],
   "/contact": ["src/components/contact", "src/content/contact.ts", "src/content/offices.ts", "src/app/(site)/contact"],
   "/privacy-policy": ["src/content/legal.ts", "src/components/legal", "src/app/(site)/privacy-policy"],
+  "/terms-of-use": ["src/content/legal.ts", "src/components/legal", "src/app/(site)/terms-of-use"],
+  "/cookie-policy": ["src/content/legal.ts", "src/components/legal", "src/app/(site)/cookie-policy"],
 };
 for (const slug of slugsIn("src/content/servicePages")) {
   // faqs.ts is shared, so an FAQ edit moves every service page's date — an over-estimate, never an under-estimate.

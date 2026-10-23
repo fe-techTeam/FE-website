@@ -1,3 +1,5 @@
+import { AI_SOLUTIONS_ENABLED } from "@/content/features";
+
 /**
  * Canonical list of First Economy service offerings — aligned to the creds deck and Home grid.
  */
@@ -9,7 +11,7 @@ export type ServiceOffering = {
   href: string;
 };
 
-export const serviceOfferings: ServiceOffering[] = [
+const allServiceOfferings: ServiceOffering[] = [
   {
     slug: "media-buying",
     name: "360° Media Buying",
@@ -65,3 +67,8 @@ export const serviceOfferings: ServiceOffering[] = [
     href: "/services/ai-solutions",
   },
 ];
+
+/** What the site lists: every offering except those whose feature switch is off (see features.ts). */
+export const serviceOfferings: ServiceOffering[] = allServiceOfferings.filter(
+  (service) => AI_SOLUTIONS_ENABLED || service.slug !== "ai-solutions",
+);

@@ -1,10 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { Clock, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
+import type { ComponentType } from "react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import RotatingWord from "@/components/RotatingWord";
 import ContactForm from "@/components/contact/ContactForm";
+import { WhatsAppIcon } from "@/components/SocialIcons";
+import WhatsAppLink from "@/components/WhatsAppLink";
 import { usePageReveal } from "@/hooks/usePageReveal";
 import {
   contactFormCopy,
@@ -14,11 +17,18 @@ import {
   contactTouch,
 } from "@/content/contact";
 
-const touchIcons: Record<(typeof contactTouch.items)[number]["icon"], LucideIcon> = {
+const touchIcons: Record<
+  (typeof contactTouch.items)[number]["icon"],
+  ComponentType<{ size?: number; strokeWidth?: number }>
+> = {
   phone: Phone,
+  whatsapp: WhatsAppIcon,
   email: Mail,
   hours: Clock,
 };
+
+const touchLinkClass =
+  "text-body mt-1 inline-flex min-h-11 items-center break-words text-ink transition hover:text-red focus-visible:text-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red";
 
 export default function ContactPage() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -80,11 +90,12 @@ export default function ContactPage() {
                       <p className="m-0 font-display text-xs font-bold tracking-[0.14em] text-muted uppercase">
                         {item.label}
                       </p>
-                      {"href" in item && item.href ? (
-                        <a
-                          href={item.href}
-                          className="text-body mt-1 inline-flex min-h-11 items-center break-words text-ink transition hover:text-red focus-visible:text-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red"
-                        >
+                      {item.icon === "whatsapp" ? (
+                        <WhatsAppLink location="contact" className={touchLinkClass}>
+                          {item.value}
+                        </WhatsAppLink>
+                      ) : "href" in item && item.href ? (
+                        <a href={item.href} className={touchLinkClass}>
                           {item.value}
                         </a>
                       ) : (

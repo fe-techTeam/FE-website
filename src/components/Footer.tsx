@@ -6,8 +6,11 @@ import {
   FacebookIcon,
   InstagramIcon,
   LinkedInIcon,
+  WhatsAppIcon,
   YouTubeIcon,
 } from "@/components/SocialIcons";
+import WhatsAppLink from "@/components/WhatsAppLink";
+import { openConsentSettings } from "@/lib/consent";
 import { serviceOfferings } from "@/content/serviceOfferings";
 import { contactInfo, socialLinks } from "@/content/site";
 
@@ -17,8 +20,10 @@ const columns = [
     links: [
       { label: "About Us", href: "/about" },
       { label: "Our Team", href: "/about#team" },
+      { label: "Work", href: "/work" },
       { label: "Awards", href: "/awards" },
       { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
       { label: "Locations", href: "/contact#offices" },
     ],
   },
@@ -70,6 +75,13 @@ export default function Footer() {
                 <Phone size={14} strokeWidth={2} className="flex-none" aria-hidden />
                 <span>{contactInfo.phone}</span>
               </a>
+              <WhatsAppLink
+                location="footer"
+                className="flex min-h-11 items-center gap-2.5 transition hover:text-white focus-visible:text-white"
+              >
+                <WhatsAppIcon size={14} />
+                <span>Chat on WhatsApp</span>
+              </WhatsAppLink>
               <a
                 href={contactInfo.emailHref}
                 className="flex min-h-11 items-center gap-2.5 transition hover:text-white focus-visible:text-white"
@@ -114,7 +126,7 @@ export default function Footer() {
 
       <div className="section-inner text-body-sm flex flex-col items-start justify-between gap-4 border-t border-white/15 py-5 pb-6 text-muted-on-dark sm:flex-row sm:items-center sm:gap-6 sm:pb-7">
         <span suppressHydrationWarning>
-          &copy; {new Date().getFullYear()} First Economy. All rights reserved.
+          &copy; {new Date().getFullYear()} First Economy Private Limited. All rights reserved.
         </span>
         <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
           <Link
@@ -123,6 +135,25 @@ export default function Footer() {
           >
             Privacy Policy
           </Link>
+          <Link
+            href="/terms-of-use"
+            className="tap-target-sm inline-flex items-center transition hover:text-white focus-visible:text-white"
+          >
+            Terms of Use
+          </Link>
+          <Link
+            href="/cookie-policy"
+            className="tap-target-sm inline-flex items-center transition hover:text-white focus-visible:text-white"
+          >
+            Cookie Policy
+          </Link>
+          <button
+            type="button"
+            onClick={openConsentSettings}
+            className="tap-target-sm inline-flex cursor-pointer items-center transition hover:text-white focus-visible:text-white"
+          >
+            Cookie settings
+          </button>
           <button
             type="button"
             aria-label="Back to top"

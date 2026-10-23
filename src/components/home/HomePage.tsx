@@ -179,8 +179,9 @@ export default function HomePage() {
             ScrollTrigger.create({
               trigger: statsSection,
               start: "top 78%",
+              // Count up once; re-counting on every pass looks like a glitch mid-scroll.
+              once: true,
               onEnter: runCounters,
-              onEnterBack: runCounters,
             });
           }
 
@@ -194,7 +195,7 @@ export default function HomePage() {
             const tl = gsap.timeline({
               scrollTrigger: {
                 trigger: section,
-                start: "top 78%",
+                start: "top 85%",
                 toggleActions: "play none none none",
               },
               defaults: { ease: "power3.out" },
@@ -204,8 +205,8 @@ export default function HomePage() {
               tl.from(intro, {
                 y: 32,
                 autoAlpha: 0,
-                duration: 0.75,
-                stagger: 0.1,
+                duration: 0.4,
+                stagger: 0.06,
               });
             }
 
@@ -215,10 +216,10 @@ export default function HomePage() {
                 {
                   y: 24,
                   autoAlpha: 0,
-                  duration: 0.55,
-                  stagger: 0.06,
+                  duration: 0.4,
+                  stagger: 0.05,
                 },
-                intro.length ? "-=0.35" : 0,
+                intro.length ? "-=0.25" : 0,
               );
             }
           });
@@ -248,23 +249,17 @@ export default function HomePage() {
         </div>
         <div className="growth-hero__grid">
           <div className="growth-hero__copy">
-            <p data-animate="hero-eyebrow" className="growth-hero__eyebrow" aria-hidden="true">
-              <span>360° Media</span>
-              <span className="growth-hero__eyebrow-mark" />
-              <span>Technology</span>
-              <span className="growth-hero__eyebrow-mark" />
-              <span>Strategy</span>
-              <span className="growth-hero__eyebrow-mark" />
-              <span>Creativity</span>
+            <p data-animate="hero-eyebrow" className="growth-hero__eyebrow growth-hero__eyebrow--tagline">
+              We don&rsquo;t just connect the dots. We make them count.
             </p>
 
-            <h1 id="hero-heading" className="growth-hero__title">
+            <h1 id="hero-heading" className="growth-hero__title growth-hero__title--offer">
               <span className="growth-hero__line">
                 <span
                   data-animate="hero-line"
                   className="growth-hero__line-inner growth-hero__line-inner--flow"
                 >
-                  We don&rsquo;t just connect the dots.
+                  Integrated marketing, technology and AI
                 </span>
               </span>
               <span className="growth-hero__line growth-hero__line--accent">
@@ -272,19 +267,28 @@ export default function HomePage() {
                   data-animate="hero-line"
                   className="growth-hero__line-inner growth-hero__line-inner--flow"
                 >
-                  We make them count.
+                  for brands that need measurable growth.
                 </span>
               </span>
             </h1>
 
             <div data-animate="hero-ctas" className="growth-hero__ctas">
-              <GrowthCta href="/work" variant="primary">
-                Explore our work
+              <GrowthCta href="/contact" variant="primary">
+                Book a growth call
               </GrowthCta>
-              <GrowthCta href="/services" variant="accent">
-                Explore our services
+              <GrowthCta href="/work" variant="accent">
+                See our work
               </GrowthCta>
             </div>
+
+            {/* Shares the CTA reveal so it fades in with the buttons. */}
+            <p data-animate="hero-ctas" className="growth-hero__proof">
+              <span>302 specialists</span>
+              <span aria-hidden="true" className="growth-hero__proof-mark" />
+              <span>83+ active clients</span>
+              <span aria-hidden="true" className="growth-hero__proof-mark" />
+              <span>Guinness World Record</span>
+            </p>
 
           </div>
 

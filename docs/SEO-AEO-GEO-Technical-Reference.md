@@ -102,7 +102,7 @@ These are the facts the site states about the brand. Generative engines assemble
 - **All public pages are statically generated or server-rendered**; the `<h1>`, body copy, breadcrumbs, schema and links are in the initial HTML. Verified in production HTML for every URL: exactly **one H1** per page.
 - Client components (`"use client"`) still server-render; no content depends on `ssr: false`.
 - **Carousels:** all slides must be in HTML. The About values slider was changed to render all five values (inactive ones `invisible` + `aria-hidden`); other carousels (Careers gallery, home) have **not** been individually audited for this — check that every slide/card exists in server HTML when touching them.
-- **Preloader:** shown on the home page only, once per browser session, with a 0.9s minimum display (was 2.2s, on every home view). It is `aria-hidden`, flagged before first paint by a script in `src/app/layout.tsx`, and absent on repeat visits so the hero is immediately paintable. The route skeleton (`(site)/loading.tsx`) is decorative and emits no "Loading page" text.
+- **Preloader:** shown on the home page only, once per browser session, for about 0.6s (0.35s count + 0.25s fade; was 2.2s). It no longer waits for the window load event, is hidden after 1s even if hydration is slow, and is skipped entirely for visitors who prefer reduced motion. It is `aria-hidden`, flagged before first paint by a script in `src/app/layout.tsx`, and absent on repeat visits so the hero is immediately paintable. The route skeleton (`(site)/loading.tsx`) is decorative and emits no "Loading page" text.
 - **404s:** unknown URLs return HTTP 404 (global `not-found.tsx`; `notFound()` in all dynamic routes). Closed roles currently return 404, not 410 (acceptable; 410 is optional).
 
 ### 3.2 URLs, hosts and redirects
@@ -126,8 +126,9 @@ These are the facts the site states about the brand. Generative engines assemble
 | `/index.php` | `/` | The old site 301s this itself |
 | `/works.php` | `/work` | The old site 301s this to `/our-work.php` |
 | `/our-advantage`, `/capabilities` | `/services` | Removed pages |
-| `/terms` | `/privacy-policy` | Removed page |
-| `/insights`, `/insights/*` | `/` | Removed section |
+| `/terms` | `/terms-of-use` | Old Terms URL now points at the new Terms of Use page |
+| `/docs/FE-DECK-Feb-2023.pdf` | `/about` | Old credentials deck; point at a current deck once one is published |
+| `/insights`, `/insights/*` | *(none)* | Removed section; returns 404 (a redirect to `/` reads as a soft 404) until an Insights hub exists |
 | `/clients` | `/about#trusted-by` | Consolidated |
 | `/leadership` | `/about#team` | Consolidated |
 | `/locations/{slug}` | `/contact#offices` | Consolidated |
@@ -365,7 +366,7 @@ Core Web Vitals are a ranking signal and, more importantly, an AEO/GEO eligibili
 
 | Area | Implemented | Remaining risk |
 |---|---|---|
-| LCP | Preloader limited to first-in-session home visit; AVIF/WebP; capped widths | Large PNG covers (1–3 MB sources); hero image priority per page unaudited |
+| LCP | Preloader limited to first-in-session home visit and capped at about 0.6s; AVIF/WebP; capped widths | Large PNG covers (1–3 MB sources); hero image priority per page unaudited |
 | CLS | Fixed aspect ratios on cards/heroes | GSAP entrance animations and marquees must not shift layout — verify in field data |
 | INP | — | Heavy scroll/marquee animation libraries (GSAP/ScrollTrigger) load site-wide; lazy-load below the fold |
 | Mobile UX | No horizontal overflow and ≥44px tap targets verified at 375px | Check 360px and 414px |

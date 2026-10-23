@@ -3,10 +3,16 @@
 import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
 import GrowthCta from "@/components/GrowthCta";
-import { contactFormCopy, contactInterests } from "@/content/contact";
+import {
+  contactBudgets,
+  contactCountryCodes,
+  contactFormCopy,
+  contactInterests,
+  contactTimelines,
+} from "@/content/contact";
 import { trackEvent } from "@/lib/analytics";
 import { postJson } from "@/lib/forms/client";
-import { FIELD_LIMITS, isValidEmail } from "@/lib/forms/validation";
+import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/forms/validation";
 
 const fieldClass =
   "field-control min-h-12 bg-white px-4 py-3.5 transition-[border-color] duration-200";
@@ -30,7 +36,9 @@ export default function ContactForm() {
     const nextErrors: Partial<Record<FieldName, string>> = {};
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
+    const phoneNumber = String(data.get("phone") ?? "").trim();
+    // Only prefix the country code when a number was entered, so an empty optional field stays empty.
+    const phone = phoneNumber ? `${String(data.get("phoneCountry") ?? "+91")} ${phoneNumber}`.trim() : "";
     const company = String(data.get("company") ?? "").trim();
     const requirement = String(data.get("requirement") ?? "").trim();
     const consent = data.get("consent") === "on";
@@ -38,7 +46,7 @@ export default function ContactForm() {
     if (!name) nextErrors.name = "Enter your full name.";
     if (!email) nextErrors.email = "Enter your email address.";
     else if (!isValidEmail(email)) nextErrors.email = "Enter a valid email address.";
-    if (!phone) nextErrors.phone = "Enter your phone number.";
+    if (phoneNumber && !isValidPhone(phoneNumber)) nextErrors.phone = "Enter a valid phone number, or leave it blank.";
     if (!company) nextErrors.company = "Enter your company name.";
     if (!requirement) nextErrors.requirement = "Tell us about your requirement.";
     if (!consent) nextErrors.consent = "Please agree to the Privacy Policy.";
@@ -62,6 +70,9 @@ export default function ContactForm() {
       phone,
       company,
       interest: String(data.get("interest") ?? "").trim(),
+      budget: String(data.get("budget") ?? "").trim(),
+      contactOptIn: data.get("contactOptIn") === "on",
+      timeline: String(data.get("timeline") ?? "").trim(),
       requirement,
       consent: true,
       _gotcha: String(data.get("_gotcha") ?? "").trim(),
@@ -124,21 +135,49 @@ export default function ContactForm() {
         label="Email Address"
         required
         autoComplete="email"
+        placeholder="name@company.com"
         error={errors.email}
         disabled={status === "submitting"}
         maxLength={FIELD_LIMITS.email}
       />
-      <Field
-        id={`${formId}-phone`}
-        name="phone"
-        type="tel"
-        label="Phone Number"
-        required
-        autoComplete="tel"
-        error={errors.phone}
-        disabled={status === "submitting"}
-        maxLength={FIELD_LIMITS.phone}
-      />
+      <div className="relative min-w-0 sm:col-span-2">
+        <label htmlFor={`${formId}-phone`} className="mb-1.5 block text-sm font-medium text-ink">
+          Phone Number <span className="font-normal text-muted">(optional)</span>
+        </label>
+        <div className="flex gap-2">
+          <select
+            name="phoneCountry"
+            aria-label="Country code"
+            defaultValue="+91"
+            disabled={status === "submitting"}
+            className={`${fieldClass} w-[8.25rem]! flex-none appearance-auto px-2!`}
+          >
+            {contactCountryCodes.map((country) => (
+              <option key={country.code} value={country.code}>
+                {country.label}
+              </option>
+            ))}
+          </select>
+          <input
+            id={`${formId}-phone`}
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel-national"
+            disabled={status === "submitting"}
+            maxLength={FIELD_LIMITS.phone}
+            placeholder="98765 43210"
+            aria-invalid={errors.phone ? true : undefined}
+            aria-describedby={errors.phone ? `${formId}-phone-error` : undefined}
+            className={`${fieldClass} min-w-0 flex-1`}
+          />
+        </div>
+        {errors.phone ? (
+          <p id={`${formId}-phone-error`} className="mt-1.5 text-sm text-red" role="alert">
+            {errors.phone}
+          </p>
+        ) : null}
+      </div>
       <Field
         id={`${formId}-company`}
         name="company"
@@ -172,6 +211,46 @@ export default function ContactForm() {
         </select>
       </div>
 
+      <div className="relative min-w-0">
+        <label htmlFor={`${formId}-budget`} className="mb-1.5 block text-sm font-medium text-ink">
+          Budget <span className="font-normal text-muted">(optional)</span>
+        </label>
+        <select
+          id={`${formId}-budget`}
+          name="budget"
+          defaultValue=""
+          disabled={status === "submitting"}
+          className={`${fieldClass} appearance-auto pr-10`}
+        >
+          <option value="">Prefer not to say</option>
+          {contactBudgets.map((budget) => (
+            <option key={budget} value={budget}>
+              {budget}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="relative min-w-0">
+        <label htmlFor={`${formId}-timeline`} className="mb-1.5 block text-sm font-medium text-ink">
+          Timeline <span className="font-normal text-muted">(optional)</span>
+        </label>
+        <select
+          id={`${formId}-timeline`}
+          name="timeline"
+          defaultValue=""
+          disabled={status === "submitting"}
+          className={`${fieldClass} appearance-auto pr-10`}
+        >
+          <option value="">Prefer not to say</option>
+          {contactTimelines.map((timeline) => (
+            <option key={timeline} value={timeline}>
+              {timeline}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="relative min-w-0 sm:col-span-2">
         <label htmlFor={`${formId}-requirement`} className="mb-1.5 block text-sm font-medium text-ink">
           Your requirement <span className="text-red">*</span>
@@ -183,7 +262,7 @@ export default function ContactForm() {
           rows={5}
           maxLength={FIELD_LIMITS.requirement}
           disabled={status === "submitting"}
-          placeholder="Tell us about your requirement"
+          placeholder="What are you trying to achieve?"
           aria-invalid={errors.requirement ? true : undefined}
           aria-describedby={errors.requirement ? `${formId}-requirement-error` : undefined}
           className={`${fieldClass} min-h-[8.5rem] resize-y`}
@@ -193,6 +272,16 @@ export default function ContactForm() {
             {errors.requirement}
           </p>
         ) : null}
+      </div>
+
+      <div className="sm:col-span-2">
+        <div className="flex items-start gap-3">
+          <input id={`${formId}-optin`} type="checkbox" name="contactOptIn" disabled={status === "submitting"} className="contact-check mt-[0.15em]" />
+          <label htmlFor={`${formId}-optin`} className="min-w-0 cursor-pointer text-sm leading-snug text-muted">
+            <span className="font-medium text-ink">Optional:</span> You may contact me by phone, SMS or WhatsApp about this
+            enquiry, even if my number is on a Do Not Disturb list. I can withdraw this at any time.
+          </label>
+        </div>
       </div>
 
       <div className="sm:col-span-2">
@@ -255,6 +344,7 @@ function Field({
   error,
   disabled,
   maxLength,
+  placeholder,
 }: {
   id: string;
   name: FieldName;
@@ -265,6 +355,8 @@ function Field({
   error?: string;
   disabled?: boolean;
   maxLength?: number;
+  /** A hint or example, never a repeat of the label. */
+  placeholder?: string;
 }) {
   return (
     <div className="relative min-w-0">
@@ -280,7 +372,7 @@ function Field({
         autoComplete={autoComplete}
         disabled={disabled}
         maxLength={maxLength}
-        placeholder={label}
+        placeholder={placeholder}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
         className={fieldClass}

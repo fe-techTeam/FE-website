@@ -162,7 +162,7 @@ export default function CareersCultureGallery({ images }: CareersCultureGalleryP
               <div className="flex items-center justify-between gap-4 text-white">
                 <p className="text-body-sm m-0 min-w-0 truncate text-white/80">
                   {lightboxItem.alt}
-                  <span className="text-white/45"> · {lightboxIndex! + 1} / {total}</span>
+                  <span className="text-white/70"> · {lightboxIndex! + 1} / {total}</span>
                 </p>
                 <button
                   type="button"

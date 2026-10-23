@@ -84,7 +84,7 @@ export default function WorkCaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
         <p className="text-body-sm mt-2.5 mb-0 line-clamp-3 text-muted">{caseStudy.hero}</p>
 
         <span className="text-cta mt-auto inline-flex min-h-11 items-center gap-2.5 pt-4 text-ink transition group-hover:text-red sm:pt-5">
-          Know more
+          View case study
           <span
             className="grid size-7 flex-none place-items-center rounded-full border border-current transition duration-200 group-hover:border-red group-hover:bg-red group-hover:text-white sm:size-8"
             aria-hidden

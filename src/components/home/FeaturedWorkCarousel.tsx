@@ -22,10 +22,9 @@ export default function FeaturedWorkCarousel() {
       slidesGroupLabel="Case study slides"
       getSlideLabel={(index) => workCardTitle(featuredCases[index]!)}
       controls="dark"
-      arrowPosition="upper"
+      arrowPosition="below"
       prevLabel="Previous case study"
       nextLabel="Next case study"
-      autoPlayInterval={3000}
       showDots={false}
     >
       {featuredCases.map((caseStudy) => {

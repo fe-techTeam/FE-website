@@ -446,6 +446,66 @@
   }
 }
 
+/* UX-01: the H1 now states the offer, so it runs longer than the old tagline; smaller steps keep it to ~3-4 lines. */
+.growth-hero__title--offer {
+  font-size: clamp(1.875rem, 7.4vw, 2.75rem);
+  line-height: 0.98;
+}
+
+@media (min-width: 640px) {
+  .growth-hero__title--offer {
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    line-height: 0.96;
+  }
+}
+
+@media (min-width: 960px) {
+  .growth-hero__title--offer {
+    font-size: clamp(2.5rem, 2.6vw + 0.75rem, 4.25rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .growth-hero__title--offer {
+    font-size: clamp(3rem, 3.2vw + 0.5rem, 4.75rem);
+  }
+}
+
+@media (min-width: 1536px) {
+  .growth-hero__title--offer {
+    font-size: clamp(3.5rem, calc(var(--content) * 0.045), 5.75rem);
+  }
+}
+
+/* The old tagline, now the eyebrow: darker and slightly larger than the muted label it replaces (contrast). */
+.growth-hero__eyebrow--tagline {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--gs-ink-soft);
+}
+
+/* Proof line under the CTAs. */
+.growth-hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.7rem;
+  margin: 1.1rem 0 0;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--gs-ink-soft);
+}
+
+.growth-hero__proof-mark {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gs-red);
+}
+
 .growth-hero__ctas {
   display: flex;
   flex-direction: column;
@@ -477,8 +537,8 @@
 
 .growth-cta {
   --gs-ink: #080808;
-  --gs-red: #007da6;
-  --gs-red-glow: rgba(0, 125, 166, 0.35);
+  --gs-red: #e1261c;
+  --gs-red-glow: rgba(225, 38, 28, 0.35);
   --cta-bevel: 12px;
   position: relative;
   display: inline-flex;

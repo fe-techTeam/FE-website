@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Don't advertise the framework in a response header.
+  poweredByHeader: false,
   images: {
     // AVIF first, WebP fallback — roughly halves the PNG/JPG weight of case-study and team imagery.
     formats: ["image/avif", "image/webp"],
@@ -26,6 +28,18 @@ const nextConfig: NextConfig = {
   async headers() {
     const noindex = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
     return [
+      // Baseline security headers on every response. The CSP is limited to frame-ancestors for now: a full
+      // script/connect policy has to allow GTM, so roll that out in report-only mode first.
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+        ],
+      },
       // /proposal/ holds the legacy site's client proposal pages (plain HTML in public/proposal/, served as they are).
       // They are private: the old robots.txt disallowed them, so keep them out of search.
       { source: "/proposal/:path*", headers: noindex },
@@ -65,19 +79,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/terms",
-        destination: "/privacy-policy",
+        destination: "/terms-of-use",
         permanent: true,
       },
-      {
-        source: "/insights",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/insights/:path*",
-        destination: "/",
-        permanent: true,
-      },
+      // The old credentials deck PDF was linked from the legacy homepage and may sit in sent proposals.
+      // No current deck is published, so land on About until one is (then point this at the new file).
+      { source: "/docs/FE-DECK-Feb-2023.pdf", destination: "/about", permanent: true },
       {
         source: "/clients",
         destination: "/about#trusted-by",

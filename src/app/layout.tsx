@@ -10,10 +10,11 @@ import { GOOGLE_SITE_VERIFICATION } from "@/lib/tracking";
  * own shell without inheriting it.
  */
 
+// Archivo is a variable font, so one file covers every weight the site uses (400-700) instead of four static
+// files that were each preloaded and mostly unused on first paint.
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
 const barlow = Barlow_Condensed({
@@ -67,11 +68,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <head>
-        {/* Flags a first-in-session home load before first paint so the preloader overlay shows with no flash. */}
+        {/* Flags a first-in-session home load before first paint so the preloader overlay shows with no flash (never for reduced-motion visitors). The timer hides it after 1s even if hydration is slow. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if(location.pathname==="/"&&!sessionStorage.getItem("fe-preloaded"))document.documentElement.setAttribute("data-preload","1")}catch(e){}',
+              'try{if(location.pathname==="/"&&!sessionStorage.getItem("fe-preloaded")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.setAttribute("data-preload","1");setTimeout(function(){window.__feSkipPreload=1;document.documentElement.removeAttribute("data-preload")},1000)}}catch(e){}',
           }}
         />
       </head>
