@@ -5,7 +5,7 @@ export const industries: Industry[] = [
     slug: "real-estate",
     name: "Real Estate",
     overview:
-      "From city-wide launch takeovers to campaigns built around a site's own character, we help real estate brands turn attention into footfall and sales.",
+      "From city-wide launch takeovers to campaigns built around a site’s own character, we help real estate brands turn attention into footfall and sales.",
     clients: ["Godrej Properties"],
     caseStudySlugs: ["godrej-blue", "godrej-greenfront"],
     tone: "campaign",
@@ -16,7 +16,7 @@ export const industries: Industry[] = [
     overview:
       "Regulated, compliance-heavy and trust-driven — we build the technology, content and awareness systems that financial brands need to grow responsibly.",
     clients: ["Poonawalla Fincorp", "Mahindra Manulife"],
-    caseStudySlugs: ["mahindra-manulife", "poonawalla-fraud-awareness", "poonawalla-ai-creatives"],
+    caseStudySlugs: ["mahindra-manulife"],
     tone: "restrained",
   },
   {
@@ -24,14 +24,13 @@ export const industries: Industry[] = [
     name: "Consumer, Retail & E-commerce",
     overview:
       "Category-crowded, always-on and highly competitive — we combine media, creative and marketplace expertise to win attention and conversion.",
-    clients: ["VIP Industries", "Amazon", "Samsung", "Shoppers Stop", "Cello", "Young Bags", "Royale Touché"],
+    clients: ["VIP Industries", "Amazon", "Samsung", "Cello", "Royale Touché", "Jockey"],
     caseStudySlugs: [
       "vip-industries",
-      "shoppers-stop-local-seo",
       "cello-kidzbee",
-      "young-bags",
       "amazon-samsung-great-indian-festival",
       "royale-touche-stay-curious",
+      "jockey-seo",
     ],
     tone: "fast",
   },

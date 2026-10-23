@@ -4,19 +4,29 @@
  */
 
 import type { MediaSlot } from "@/content/about";
+import { officeLocations } from "@/content/offices";
 import { contactInfo } from "@/content/site";
 
 export const contactHero = {
   eyebrow: "Contact Us",
-  headlineBefore: "Let's engineer your next",
-  headlineAccent: "growth system.",
+  headlineBefore: "Let’s Discuss",
+  headlineAccentWords: [
+    "Media Buying",
+    "AI",
+    "SEO",
+    "Strategy",
+    "Innovation & Branding",
+    "Social Media",
+    "Video Production",
+    "Tech",
+  ],
   body: "Tell us about your challenge and our experts will get back to you within 24 hours.",
   cta: { label: "Send a message", href: "#contact-form" },
   image: {
     src: "/images/contact/hero/team-meeting.jpg",
     alt: "First Economy team in a glass meeting room",
     label: "Contact hero meeting photo",
-    grayscale: true,
+    grayscale: false,
   } satisfies MediaSlot,
   verticalMark: "CALL  ·  EMAIL  ·  VISIT  ·  PARTNER",
   burst: "/images/about/hero/radial-burst.svg",
@@ -25,10 +35,6 @@ export const contactHero = {
 
 export const contactFormCopy = {
   title: "Send us a message",
-  privacyPrefix: "I agree to the ",
-  privacyLink: "Privacy Policy",
-  termsLink: "Terms & Conditions",
-  privacyJoin: " and ",
   submit: "Send message",
   successTitle: "Message sent.",
   successBody: "Thank you. Our team will get back to you within 24 working hours.",
@@ -43,7 +49,7 @@ export const contactInterests = [
   "Social Media",
   "Influencer Marketing",
   "Video Production",
-  "Branding",
+  "Project Innovation & Branding",
   "Marketplace Management",
   "Careers",
   "Partnership",
@@ -67,45 +73,22 @@ export const contactTouch = {
     },
     {
       label: "Business hours",
-      value: "Mon - Sat: 10:00 AM – 7:00 PM",
+      value: "Mon - Fri: 10:30 AM – 7:30 PM",
       icon: "hours" as const,
-    },
-    {
-      label: "Response time",
-      value: "Within 24 working hours",
-      icon: "response" as const,
     },
   ],
 };
 
 export const contactOfficesCopy = {
   eyebrow: "Our Offices",
-  title: "We are where you are.",
+  title: "Our Offices",
   body: "Four cities. One mission. Building growth systems that drive real impact.",
 };
 
-export const contactOffices = [
-  {
-    slug: "mumbai",
-    city: "Mumbai",
-    isHq: true,
-    address:
-      "Plot No. 240, 240/1 to 8, 2nd Floor, Office No. 205, Neelkanth Corporate IT Park, Vidya Vihar Station Road West, Mumbai 400086",
-  },
-  {
-    slug: "bengaluru",
-    city: "Bengaluru",
-    address: "Bengaluru, Karnataka",
-  },
-  {
-    slug: "aurangabad",
-    city: "Aurangabad",
-    address:
-      "Office 101, First Floor, Vastu Elite Square, Beed Bypass, Chhatrapati Sambhajinagar (Aurangabad) 431001",
-  },
-  {
-    slug: "pune",
-    city: "Pune",
-    address: "WeWork, Kalyani Nagar, Pune",
-  },
-] as const;
+export const contactOffices = officeLocations.map(({ slug, city, isHq, address, contact }) => ({
+  slug,
+  city,
+  ...(isHq ? { isHq: true as const } : {}),
+  address,
+  ...(contact ? { contact } : {}),
+}));

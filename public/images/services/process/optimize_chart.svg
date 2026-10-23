@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
-<path d="M25 71V61h10v10M43 71V51h10v20M61 71V40h10v31" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25 51l13-10 11 5 21-21M60 25h10v10" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
+  <!-- Rising bars + trend: measure, learn, refine -->
+  <path d="M28 72V56h12v16M46 72V46h12v26M64 72V34h12v38" stroke="#111111" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M30 50l14-12 10 7 20-18" stroke="#111111" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M66 27h8v8" stroke="#111111" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

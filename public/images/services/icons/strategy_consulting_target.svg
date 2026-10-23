@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
-<circle cx="47" cy="53" r="19" stroke="#E52B2B" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="47" cy="53" r="10" stroke="#E52B2B" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="47" cy="53" r="3" fill="#E52B2B"/>
-<path d="M47 53l24-24M63 28h9v9" stroke="#E52B2B" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="37" fill="#F4F4F2"/>
+  <ellipse cx="50" cy="50" rx="10" ry="24" stroke="#D22525" stroke-width="2.1"/>
+  <ellipse cx="50" cy="50" rx="10" ry="24" transform="rotate(60 50 50)" stroke="#D22525" stroke-width="2.1"/>
+  <ellipse cx="50" cy="50" rx="10" ry="24" transform="rotate(-60 50 50)" stroke="#D22525" stroke-width="2.1"/>
+  <circle cx="50" cy="50" r="4.5" fill="#D22525"/>
 </svg>

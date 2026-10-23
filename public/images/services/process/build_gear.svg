@@ -1,5 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
-<circle cx="50" cy="50" r="13" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M50 23v8M50 69v8M23 50h8M69 50h8M31 31l6 6M63 63l6 6M69 31l-6 6M37 63l-6 6" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="50" cy="50" r="25" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
+  <!-- Stacked blocks: produce assets / platforms / campaigns -->
+  <rect x="34" y="28" width="32" height="14" rx="2.5" stroke="#111111" stroke-width="2.3"/>
+  <rect x="28" y="46" width="44" height="14" rx="2.5" stroke="#111111" stroke-width="2.3"/>
+  <rect x="22" y="64" width="56" height="14" rx="2.5" stroke="#111111" stroke-width="2.3"/>
 </svg>

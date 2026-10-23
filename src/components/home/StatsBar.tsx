@@ -10,6 +10,7 @@ const statIcons: Record<string, LucideIcon> = {
   People: Users,
   Cities: MapPin,
   Agencies: Share2,
+  "Marketing Agencies": Share2,
   Markets: Globe,
   "Media Billings": DollarSign,
   Billings: DollarSign,

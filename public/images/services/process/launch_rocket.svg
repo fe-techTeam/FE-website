@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
-<path d="M35 62c-8 1-14 5-19 11 8 1 15 0 21-4M64 35c-1-8-5-14-11-19-1 8 0 15 4 21" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M31 68c13-2 27-10 39-22 11-11 16-22 16-31-9 0-20 5-31 16-12 12-20 26-22 39z" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="66" cy="34" r="7" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
+  <!-- Rocket: go live / launch -->
+  <path d="M50 22c8 10 14 22 14 34 0 8-3 14-8 18H44c-5-4-8-10-8-18 0-12 6-24 14-34z" stroke="#111111" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="42" r="5" stroke="#111111" stroke-width="2.2"/>
+  <path d="M36 58l-8 6M64 58l8 6" stroke="#111111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 74l6 10 6-10" stroke="#111111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

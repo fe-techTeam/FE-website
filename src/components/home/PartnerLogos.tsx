@@ -1,142 +1,126 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
+import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { clientLogos, type PartnerLogo } from "@/content/partners";
 
 gsap.registerPlugin(useGSAP);
 
-const partners = [
-  {
-    name: "Godrej",
-    mono: "/assets/logo-godrej.png",
-    color: "/assets/logos-color/logo-godrej-color.png",
-    w: 972,
-    h: 479,
-  },
-  {
-    name: "FedEx",
-    mono: "/assets/logo-fedex.png",
-    color: "/assets/logos-color/logo-fedex-color.png",
-    w: 806,
-    h: 245,
-  },
-  {
-    name: "Mahindra",
-    mono: "/assets/logo-mahindra.png",
-    color: "/assets/logos-color/logo-mahindra-color.png",
-    w: 954,
-    h: 142,
-  },
-  {
-    name: "Adani",
-    mono: "/assets/logo-adani.png",
-    color: "/assets/logos-color/logo-adani-color.png",
-    w: 839,
-    h: 295,
-  },
-  {
-    name: "Ajanta Pharma",
-    mono: "/assets/logo-ajanta.png",
-    color: "/assets/logos-color/logo-ajanta-color.png",
-    w: 905,
-    h: 273,
-  },
-  {
-    name: "VIP",
-    mono: "/assets/logo-vip.png",
-    color: "/assets/logos-color/logo-vip-color.png",
-    w: 868,
-    h: 308,
-  },
-  {
-    name: "Waaree",
-    mono: "/assets/logo-waaree.png",
-    color: "/assets/logos-color/logo-waaree-color.png",
-    w: 952,
-    h: 287,
-  },
-  {
-    name: "Orpat",
-    mono: "/assets/logo-orpat.png",
-    color: "/assets/logos-color/logo-orpat-color.png",
-    w: 937,
-    h: 276,
-  },
-  {
-    name: "Piramal",
-    mono: "/assets/logo-piramal.png",
-    color: "/assets/logos-color/logo-piramal-color.png",
-    w: 906,
-    h: 445,
-  },
-  {
-    name: "Danone",
-    mono: "/assets/logo-danone.png",
-    color: "/assets/logos-color/logo-danone-color.png",
-    w: 886,
-    h: 249,
-  },
-  {
-    name: "Amrita",
-    mono: "/assets/logo-amrita.png",
-    color: "/assets/logos-color/logo-amrita-color.png",
-    w: 1016,
-    h: 283,
-  },
-];
+const mid = Math.ceil(clientLogos.length / 2);
+const rowLeft = clientLogos.slice(0, mid);
+const rowRight = clientLogos.slice(mid);
 
-const mid = Math.ceil(partners.length / 2);
-const rowLeft = partners.slice(0, mid);
-const rowRight = partners.slice(mid);
+type PartnerLogoFrameProps = {
+  partner: PartnerLogo;
+  alt: string;
+  sizes: string;
+  imageClassName?: string;
+};
 
-type Partner = (typeof partners)[number];
+function PartnerLogoFrame({ partner, alt, sizes, imageClassName = "" }: PartnerLogoFrameProps) {
+  const box = partner.contentBox;
 
-function LogoItem({ partner, duplicate }: { partner: Partner; duplicate?: boolean }) {
+  if (!box) {
+    return (
+      <Image
+        src={partner.src}
+        alt={alt}
+        width={partner.width}
+        height={partner.height}
+        unoptimized
+        sizes={sizes}
+        className={`h-auto max-h-full w-auto max-w-full object-contain ${imageClassName}`.trim()}
+      />
+    );
+  }
+
+  const [x0, y0, cw, ch] = box;
+  const { width: iw, height: ih, src } = partner;
+
+  // SVG viewBox crops to contentBox optically; preserveAspectRatio fills the cell without overflow.
+  // Original PNG bytes are unchanged — only display framing.
+  return (
+    <svg
+      viewBox={`${x0} ${y0} ${cw} ${ch}`}
+      className={`h-full w-full ${imageClassName}`.trim()}
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      aria-label={alt || undefined}
+      aria-hidden={alt === "" ? true : undefined}
+    >
+      {alt ? <title>{alt}</title> : null}
+      <image href={src} width={iw} height={ih} preserveAspectRatio="none" />
+    </svg>
+  );
+}
+
+function LogoItem({ partner, duplicate }: { partner: PartnerLogo; duplicate?: boolean }) {
   return (
     <li
-      className="group flex h-16 shrink-0 items-center justify-center px-6 sm:h-20 sm:px-8 md:h-[5.5rem] md:px-10"
+      className="group flex h-20 w-[220px] shrink-0 items-center justify-center overflow-hidden rounded-xl border border-line bg-white sm:h-24 sm:w-[250px] md:h-28 md:w-[280px]"
       aria-hidden={duplicate || undefined}
     >
-      <span className="relative inline-flex h-10 w-[140px] items-center justify-center sm:h-12 sm:w-[160px] md:h-14 md:w-[180px]">
-        <Image
-          src={partner.mono}
+      <span className="flex h-full w-full min-h-0 min-w-0 items-center justify-center px-4 py-3 sm:px-5 sm:py-4">
+        <PartnerLogoFrame
+          partner={partner}
           alt={duplicate ? "" : `${partner.name} logo`}
-          width={partner.w}
-          height={partner.h}
-          quality={100}
-          unoptimized
-          sizes="180px"
-          className="h-full w-auto max-w-full object-contain opacity-80 transition duration-300 group-hover:opacity-0"
-        />
-        <Image
-          src={partner.color}
-          alt=""
-          aria-hidden
-          width={partner.w}
-          height={partner.h}
-          quality={100}
-          unoptimized
-          sizes="180px"
-          className="pointer-events-none absolute inset-0 m-auto h-full w-auto max-w-full object-contain opacity-0 transition duration-300 group-hover:opacity-100"
+          sizes="300px"
+          imageClassName="opacity-90 transition duration-300 group-hover:opacity-100"
         />
       </span>
     </li>
   );
 }
 
+function GridLogoItem({ partner }: { partner: PartnerLogo }) {
+  return (
+    <li className="flex h-[7.5rem] items-center justify-center overflow-hidden rounded-xl border border-line bg-white sm:h-[8rem]">
+      <span className="flex h-full w-full min-h-0 min-w-0 items-center justify-center p-4 sm:p-5">
+        <PartnerLogoFrame
+          partner={partner}
+          alt={`${partner.name} logo`}
+          sizes="(max-width: 640px) 40vw, 220px"
+        />
+      </span>
+    </li>
+  );
+}
+
+/** About-style logo grid — reusable for client logos, platform partners, etc. */
+export function LogoMarkGrid({
+  logos,
+  className = "m-0 grid list-none grid-cols-2 gap-2.5 p-0 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6",
+}: {
+  logos: PartnerLogo[];
+  className?: string;
+}) {
+  return (
+    <ul className={className}>
+      {logos.map((partner) => (
+        <GridLogoItem key={partner.slug} partner={partner} />
+      ))}
+    </ul>
+  );
+}
+
+function PartnerLogoGrid() {
+  return <LogoMarkGrid logos={clientLogos} />;
+}
+
 function MarqueeRow({
   items,
   direction,
 }: {
-  items: Partner[];
+  items: PartnerLogo[];
   direction: "left" | "right";
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
 
-  // Triple the set so short rows still cover wide viewports
   const copies = 3;
 
   useGSAP(
@@ -153,14 +137,22 @@ function MarqueeRow({
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         let tween: gsap.core.Tween | undefined;
+        let lastSetWidth = 0;
+        let pending = false;
 
-        const start = () => {
-          tween?.kill();
-
-          // Animate by one logo set (track holds `copies` identical sets)
+        // Only actually restart (and snap position) when the measured width
+        // has genuinely changed — late image `load` events and incidental
+        // resize ticks would otherwise re-trigger this with an unchanged
+        // width and yank the track back to its start, jerking the marquee.
+        const recalc = () => {
           const setWidth = track.scrollWidth / copies;
           const viewportWidth = viewport.clientWidth;
           if (setWidth < 40 || viewportWidth < 40) return;
+
+          if (tween && Math.abs(setWidth - lastSetWidth) < 1) return;
+          lastSetWidth = setWidth;
+
+          tween?.kill();
 
           const fromX = direction === "right" ? -setWidth : 0;
           const toX = direction === "right" ? 0 : -setWidth;
@@ -168,21 +160,34 @@ function MarqueeRow({
           gsap.set(track, { x: fromX });
           tween = gsap.to(track, {
             x: toX,
-            duration: Math.max(setWidth / 45, 24),
+            // Slower crawl (~28px/s instead of ~45px/s) so more logos stay
+            // on screen at once during a typical glance at the section.
+            duration: Math.max(setWidth / 28, 36),
             ease: "none",
             repeat: -1,
           });
         };
 
-        start();
+        // Coalesce bursts of triggers (many images loading in quick
+        // succession) into a single recalculation per animation frame.
+        const requestRecalc = () => {
+          if (pending) return;
+          pending = true;
+          requestAnimationFrame(() => {
+            pending = false;
+            recalc();
+          });
+        };
 
-        const ro = new ResizeObserver(() => start());
+        recalc();
+
+        const ro = new ResizeObserver(() => requestRecalc());
         ro.observe(viewport);
         ro.observe(track);
 
         const images = track.querySelectorAll("img");
         images.forEach((img) => {
-          if (!img.complete) img.addEventListener("load", start, { once: true });
+          if (!img.complete) img.addEventListener("load", requestRecalc, { once: true });
         });
 
         const pause = () => tween?.pause();
@@ -207,12 +212,12 @@ function MarqueeRow({
     <div ref={viewportRef} className="w-full overflow-hidden">
       <ul
         ref={trackRef}
-        className="flex w-max list-none items-center p-0 will-change-transform"
+        className="flex w-max list-none items-center gap-3 p-0 will-change-transform sm:gap-4"
       >
         {Array.from({ length: copies }, (_, setIndex) =>
           items.map((partner) => (
             <LogoItem
-              key={`${setIndex}-${partner.name}`}
+              key={`${setIndex}-${partner.slug}`}
               partner={partner}
               duplicate={setIndex > 0}
             />
@@ -223,32 +228,50 @@ function MarqueeRow({
   );
 }
 
-export default function PartnerLogos() {
+type PartnerLogosProps = {
+  sectionId?: string;
+  layout?: "marquee" | "grid";
+};
+
+export default function PartnerLogos({ sectionId = "partners", layout = "marquee" }: PartnerLogosProps) {
+  const isAboutGrid = layout === "grid";
+
   return (
     <section
-      className="section-shell section-pad-sm bg-mist"
+      id={sectionId}
+      className="section-shell section-pad-sm scroll-mt-[5.5rem] bg-mist"
       aria-labelledby="partners-heading"
     >
       <div className="section-inner">
-        <h2 id="partners-heading" className="text-eyebrow m-0">
-          Trusted by visionaries
-        </h2>
-
-        <div className="section-media flex flex-col gap-2 sm:gap-3" aria-label="Partner logos">
-          <ul className="sr-only">
-            {partners.map((partner) => (
-              <li key={partner.name}>{partner.name}</li>
-            ))}
-            <li>And more</li>
-          </ul>
-          <div aria-hidden="true">
-            <MarqueeRow items={rowLeft} direction="left" />
-            <MarqueeRow items={rowRight} direction="right" />
-          </div>
-          <div className="flex justify-end pt-1 sm:pt-2" aria-hidden="true">
-            <p className="m-0 text-sm font-medium text-muted sm:text-base md:text-lg">&amp; More</p>
-          </div>
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end sm:gap-6">
+          <h2 id="partners-heading" className="text-eyebrow m-0">
+            Trusted by
+          </h2>
+          {!isAboutGrid ? (
+            <Link href="/about#trusted-by" className="text-cta link-cta text-ink">
+              View all partners
+              <ArrowRight size={16} aria-hidden />
+            </Link>
+          ) : null}
         </div>
+
+        {isAboutGrid ? (
+          <div className="section-media" aria-label="Partner logos">
+            <PartnerLogoGrid />
+          </div>
+        ) : (
+          <div className="section-media flex flex-col gap-2 sm:gap-3" aria-label="Partner logos">
+            <ul className="sr-only">
+              {clientLogos.map((partner) => (
+                <li key={partner.slug}>{partner.name}</li>
+              ))}
+            </ul>
+            <div aria-hidden="true" className="flex flex-col gap-3 sm:gap-4">
+              <MarqueeRow items={rowLeft} direction="left" />
+              <MarqueeRow items={rowRight} direction="right" />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

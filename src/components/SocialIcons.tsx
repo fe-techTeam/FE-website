@@ -33,11 +33,3 @@ export function FacebookIcon({ size = 16 }: IconProps) {
     </svg>
   );
 }
-
-export function XIcon({ size = 16 }: IconProps) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M18.9 2H22l-7.6 8.7L23.3 22H16.9l-5-6.6-5.7 6.6H2.5l8.1-9.3L1.7 2h6.6l4.5 6 5.4-6zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z" />
-    </svg>
-  );
-}

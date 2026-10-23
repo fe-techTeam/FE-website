@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { MediaSlot } from "@/content/about";
+import { mediaLucideIcons, type MediaLucideName } from "@/lib/mediaIcons";
 
 type Tone = "light" | "dark" | "accent";
 
@@ -14,6 +15,14 @@ function initialsFrom(label: string) {
     .slice(0, 2)
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
+}
+
+function resolveLucide(name: string | undefined) {
+  if (!name) return null;
+  if (name in mediaLucideIcons) {
+    return mediaLucideIcons[name as MediaLucideName];
+  }
+  return null;
 }
 
 export function ImageSlot({
@@ -106,19 +115,48 @@ export function IconSlot({
   asset: MediaSlot;
   className?: string;
   tone?: Tone;
+  /** Intrinsic / fallback pixel size. Prefer Tailwind size classes in `className` for responsive layout. */
   size?: number;
 }) {
+  const sizedByClass = Boolean(className && /\b(h-|w-|size-)/.test(className));
+  const boxStyle = sizedByClass ? undefined : { width: size, height: size };
+
   if (asset.src) {
     return (
-      <Image
-        src={asset.src}
-        alt={asset.alt}
-        aria-hidden={!asset.alt}
-        width={size}
-        height={size}
-        unoptimized
-        className={`object-contain ${className}`}
-      />
+      <span
+        className={`inline-flex shrink-0 items-center justify-center ${className}`}
+        style={boxStyle}
+      >
+        <Image
+          src={asset.src}
+          alt={asset.alt}
+          aria-hidden={!asset.alt}
+          width={size}
+          height={size}
+          unoptimized
+          className="h-full w-full max-h-full max-w-full object-contain"
+        />
+      </span>
+    );
+  }
+
+  const Lucide = resolveLucide(asset.icon);
+  if (Lucide) {
+    const toneClass =
+      tone === "dark" || tone === "accent" ? "text-red" : "text-ink";
+    const lucideSize = sizedByClass ? undefined : Math.round(size * 0.72);
+    return (
+      <span
+        className={`inline-flex shrink-0 items-center justify-center ${toneClass} ${className}`}
+        style={boxStyle}
+        aria-hidden
+      >
+        <Lucide
+          size={lucideSize ?? Math.round(size * 0.72)}
+          strokeWidth={2}
+          className={sizedByClass ? "h-[72%] w-[72%]" : undefined}
+        />
+      </span>
     );
   }
 
@@ -132,7 +170,7 @@ export function IconSlot({
   return (
     <span
       className={`inline-grid place-items-center border border-dashed ${frame} ${className}`}
-      style={{ width: size, height: size }}
+      style={boxStyle}
       title={`${asset.label} icon`}
       aria-hidden
     >

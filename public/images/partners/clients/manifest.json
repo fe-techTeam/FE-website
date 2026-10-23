@@ -1,0 +1,934 @@
+[
+  {
+    "index": 1,
+    "slug": "godrej-properties",
+    "name": "Godrej Properties",
+    "src": "/images/partners/clients/godrej-properties.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      174,
+      660,
+      152
+    ]
+  },
+  {
+    "index": 2,
+    "slug": "jockey",
+    "name": "Jockey",
+    "src": "/images/partners/clients/jockey.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      75,
+      80,
+      649,
+      340
+    ]
+  },
+  {
+    "index": 3,
+    "slug": "naturals",
+    "name": "Naturals",
+    "src": "/images/partners/clients/naturals.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      130,
+      659,
+      241
+    ]
+  },
+  {
+    "index": 4,
+    "slug": "skybags",
+    "name": "Skybags",
+    "src": "/images/partners/clients/skybags.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      79,
+      82,
+      641,
+      334
+    ]
+  },
+  {
+    "index": 5,
+    "slug": "royale-touche",
+    "name": "Royale Touche",
+    "src": "/images/partners/clients/royale-touche.png",
+    "sourceMedia": "official-brand-logo",
+    "sourceSlide": 0,
+    "width": 165,
+    "height": 153
+  },
+  {
+    "index": 6,
+    "slug": "waaree",
+    "name": "Waaree",
+    "src": "/images/partners/clients/waaree.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      71,
+      150,
+      658,
+      200
+    ]
+  },
+  {
+    "index": 7,
+    "slug": "gera",
+    "name": "Gera",
+    "src": "/images/partners/clients/gera.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      138,
+      657,
+      221
+    ]
+  },
+  {
+    "index": 8,
+    "slug": "society-tea",
+    "name": "Society Tea",
+    "src": "/images/partners/clients/society-tea.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      74,
+      105,
+      653,
+      289
+    ]
+  },
+  {
+    "index": 9,
+    "slug": "chandak",
+    "name": "Chandak",
+    "src": "/images/partners/clients/chandak.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      73,
+      132,
+      657,
+      236
+    ]
+  },
+  {
+    "index": 10,
+    "slug": "poonawalla-fincorp",
+    "name": "Poonawalla Fincorp",
+    "src": "/images/partners/clients/poonawalla-fincorp.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      168,
+      660,
+      169
+    ]
+  },
+  {
+    "index": 11,
+    "slug": "natures-basket",
+    "name": "Nature's Basket",
+    "src": "/images/partners/clients/natures-basket.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      153,
+      80,
+      494,
+      338
+    ]
+  },
+  {
+    "index": 12,
+    "slug": "caprese",
+    "name": "Caprese",
+    "src": "/images/partners/clients/caprese.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      110,
+      660,
+      279
+    ]
+  },
+  {
+    "index": 13,
+    "slug": "orpat",
+    "name": "Orpat",
+    "src": "/images/partners/clients/orpat.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      159,
+      660,
+      180
+    ]
+  },
+  {
+    "index": 14,
+    "slug": "fedex",
+    "name": "FedEx",
+    "src": "/images/partners/clients/fedex.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      140,
+      660,
+      219
+    ]
+  },
+  {
+    "index": 15,
+    "slug": "mahindra-manulife",
+    "name": "Mahindra Manulife",
+    "src": "/images/partners/clients/mahindra-manulife.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      167,
+      660,
+      165
+    ]
+  },
+  {
+    "index": 16,
+    "slug": "cello",
+    "name": "Cello",
+    "src": "/images/partners/clients/cello.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      231,
+      80,
+      338,
+      340
+    ]
+  },
+  {
+    "index": 17,
+    "slug": "samco",
+    "name": "Samco",
+    "src": "/images/partners/clients/samco.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      72,
+      190,
+      657,
+      121
+    ]
+  },
+  {
+    "index": 18,
+    "slug": "tribeca",
+    "name": "Tribeca",
+    "src": "/images/partners/clients/tribeca.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      71,
+      185,
+      658,
+      129
+    ]
+  },
+  {
+    "index": 19,
+    "slug": "amazon",
+    "name": "Amazon",
+    "src": "/images/partners/clients/amazon.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      72,
+      143,
+      656,
+      213
+    ]
+  },
+  {
+    "index": 20,
+    "slug": "piramal-pharma",
+    "name": "Piramal Pharma",
+    "src": "/images/partners/clients/piramal-pharma.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      129,
+      660,
+      241
+    ]
+  },
+  {
+    "index": 21,
+    "slug": "infosys",
+    "name": "Infosys",
+    "src": "/images/partners/clients/infosys.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      207,
+      143,
+      465,
+      276
+    ]
+  },
+  {
+    "index": 23,
+    "slug": "glenmark",
+    "name": "Glenmark",
+    "src": "/images/partners/clients/glenmark.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      90,
+      660,
+      321
+    ]
+  },
+  {
+    "index": 24,
+    "slug": "glutone",
+    "name": "Glutone",
+    "src": "/images/partners/clients/glutone.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      73,
+      176,
+      657,
+      148
+    ]
+  },
+  {
+    "index": 25,
+    "slug": "friday-filmworks",
+    "name": "Friday Filmworks",
+    "src": "/images/partners/clients/friday-filmworks.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      73,
+      125,
+      653,
+      252
+    ]
+  },
+  {
+    "index": 26,
+    "slug": "times-group",
+    "name": "The Times Group",
+    "src": "/images/partners/clients/times-group.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      152,
+      80,
+      496,
+      340
+    ]
+  },
+  {
+    "index": 28,
+    "slug": "akbar-travels",
+    "name": "Akbar Travels",
+    "src": "/images/partners/clients/akbar-travels.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      167,
+      80,
+      465,
+      340
+    ]
+  },
+  {
+    "index": 29,
+    "slug": "submarine",
+    "name": "Submarine",
+    "src": "/images/partners/clients/submarine.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      72,
+      141,
+      655,
+      216
+    ]
+  },
+  {
+    "index": 30,
+    "slug": "mayo-clinic",
+    "name": "Mayo Clinic",
+    "src": "/images/partners/clients/mayo-clinic.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      243,
+      80,
+      313,
+      340
+    ]
+  },
+  {
+    "index": 31,
+    "slug": "kanakia",
+    "name": "Kanakia",
+    "src": "/images/partners/clients/kanakia.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      128,
+      81,
+      545,
+      339
+    ]
+  },
+  {
+    "index": 32,
+    "slug": "goqii",
+    "name": "GOQii",
+    "src": "/images/partners/clients/goqii.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      156,
+      660,
+      187
+    ]
+  },
+  {
+    "index": 33,
+    "slug": "zeel",
+    "name": "Zeel",
+    "src": "/images/partners/clients/zeel.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      72,
+      172,
+      656,
+      156
+    ]
+  },
+  {
+    "index": 34,
+    "slug": "ambassador-hotel",
+    "name": "The Ambassador Hotel",
+    "src": "/images/partners/clients/ambassador-hotel.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      117,
+      80,
+      565,
+      338
+    ]
+  },
+  {
+    "index": 35,
+    "slug": "loccitane",
+    "name": "L'Occitane",
+    "src": "/images/partners/clients/loccitane.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      171,
+      659,
+      158
+    ]
+  },
+  {
+    "index": 36,
+    "slug": "kanwal",
+    "name": "Kanwal",
+    "src": "/images/partners/clients/kanwal.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      287,
+      81,
+      226,
+      339
+    ]
+  },
+  {
+    "index": 37,
+    "slug": "pre-seed",
+    "name": "Pre-Seed",
+    "src": "/images/partners/clients/pre-seed.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      71,
+      142,
+      659,
+      215
+    ]
+  },
+  {
+    "index": 38,
+    "slug": "bath-and-care",
+    "name": "The Bath and Care",
+    "src": "/images/partners/clients/bath-and-care.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      138,
+      80,
+      523,
+      340
+    ]
+  },
+  {
+    "index": 39,
+    "slug": "aristocrat",
+    "name": "Aristocrat",
+    "src": "/images/partners/clients/aristocrat.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      116,
+      660,
+      269
+    ]
+  },
+  {
+    "index": 40,
+    "slug": "avene",
+    "name": "Avène",
+    "src": "/images/partners/clients/avene.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      123,
+      660,
+      251
+    ]
+  },
+  {
+    "index": 41,
+    "slug": "runwal",
+    "name": "Runwal",
+    "src": "/images/partners/clients/runwal.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      283,
+      80,
+      272,
+      339
+    ]
+  },
+  {
+    "index": 42,
+    "slug": "suraksha-realty",
+    "name": "Suraksha Realty",
+    "src": "/images/partners/clients/suraksha-realty.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      71,
+      132,
+      659,
+      237
+    ]
+  },
+  {
+    "index": 43,
+    "slug": "beerbiceps",
+    "name": "BeerBiceps",
+    "src": "/images/partners/clients/beerbiceps.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      143,
+      80,
+      513,
+      340
+    ]
+  },
+  {
+    "index": 44,
+    "slug": "neelkanth-realty",
+    "name": "Neelkanth Realty",
+    "src": "/images/partners/clients/neelkanth-realty.png",
+    "sourceMedia": "official-brand-logo",
+    "sourceSlide": 0,
+    "width": 548,
+    "height": 197
+  },
+  {
+    "index": 45,
+    "slug": "hiranandani",
+    "name": "Hiranandani",
+    "src": "/images/partners/clients/hiranandani.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      216,
+      80,
+      367,
+      340
+    ]
+  },
+  {
+    "index": 46,
+    "slug": "shriram-properties",
+    "name": "Shriram Properties",
+    "src": "/images/partners/clients/shriram-properties.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      117,
+      80,
+      565,
+      340
+    ]
+  },
+  {
+    "index": 47,
+    "slug": "jodi",
+    "name": "Jodi",
+    "src": "/images/partners/clients/jodi.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      133,
+      660,
+      234
+    ]
+  },
+  {
+    "index": 48,
+    "slug": "tea-culture",
+    "name": "Tea Culture of the World",
+    "src": "/images/partners/clients/tea-culture.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      176,
+      80,
+      450,
+      340
+    ]
+  },
+  {
+    "index": 49,
+    "slug": "house-of-things",
+    "name": "The House of Things",
+    "src": "/images/partners/clients/house-of-things.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      86,
+      80,
+      628,
+      340
+    ]
+  },
+  {
+    "index": 50,
+    "slug": "burnt-soul",
+    "name": "Burnt Soul",
+    "src": "/images/partners/clients/burnt-soul.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      141,
+      659,
+      218
+    ]
+  },
+  {
+    "index": 51,
+    "slug": "sumadhura",
+    "name": "Sumadhura",
+    "src": "/images/partners/clients/sumadhura.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      164,
+      660,
+      171
+    ]
+  },
+  {
+    "index": 52,
+    "slug": "moyo",
+    "name": "Moyo",
+    "src": "/images/partners/clients/moyo.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      117,
+      80,
+      565,
+      340
+    ]
+  },
+  {
+    "index": 53,
+    "slug": "flamingo",
+    "name": "Flamingo",
+    "src": "/images/partners/clients/flamingo.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      220,
+      80,
+      359,
+      340
+    ]
+  },
+  {
+    "index": 54,
+    "slug": "mana",
+    "name": "Mana",
+    "src": "/images/partners/clients/mana.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      151,
+      660,
+      198
+    ]
+  },
+  {
+    "index": 55,
+    "slug": "kumar-corp",
+    "name": "Kumar Corp",
+    "src": "/images/partners/clients/kumar-corp.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      157,
+      660,
+      185
+    ]
+  },
+  {
+    "index": 56,
+    "slug": "hines",
+    "name": "Hines",
+    "src": "/images/partners/clients/hines.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      145,
+      660,
+      209
+    ]
+  },
+  {
+    "index": 57,
+    "slug": "ramky",
+    "name": "Ramky",
+    "src": "/images/partners/clients/ramky.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      213,
+      80,
+      373,
+      339
+    ]
+  },
+  {
+    "index": 60,
+    "slug": "jp-infra",
+    "name": "JP Infra",
+    "src": "/images/partners/clients/jp-infra.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      162,
+      660,
+      176
+    ]
+  },
+  {
+    "index": 61,
+    "slug": "adani-airports",
+    "name": "Adani Airports",
+    "src": "/images/partners/clients/adani-airports.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      133,
+      660,
+      234
+    ]
+  },
+  {
+    "index": 63,
+    "slug": "cello-kidzbee",
+    "name": "Cello Kidzbee",
+    "src": "/images/partners/clients/cello-kidzbee.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      70,
+      164,
+      660,
+      172
+    ]
+  },
+  {
+    "index": 64,
+    "slug": "vip-industries",
+    "name": "VIP Industries",
+    "src": "/images/partners/clients/vip-industries.png",
+    "sourceMedia": "uniform_logo_cards_800x500",
+    "sourceSlide": 0,
+    "width": 800,
+    "height": 500,
+    "contentBox": [
+      71,
+      128,
+      658,
+      243
+    ]
+  }
+]

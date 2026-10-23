@@ -10,9 +10,11 @@ export default function TeamCarousel() {
       aria-label="Leadership team"
     >
       {aboutTeam.map((member) => {
+        const [firstName, ...restName] = member.name.split(" ");
+        const lastName = restName.join(" ");
         const body = (
           <>
-            <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-[#161616]">
+            <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[#161616]">
               <PortraitSlot
                 asset={{ ...member.image, alt: "" }}
                 name={member.name}
@@ -21,16 +23,23 @@ export default function TeamCarousel() {
               />
             </div>
 
-            <div className="flex min-h-[5.25rem] flex-1 items-start justify-between gap-3 px-4 py-4 sm:min-h-[5.75rem] sm:px-5 sm:py-5">
-              <div className="min-w-0">
-                <h3 className="m-0 font-display text-[1.05rem] leading-[1.12] font-bold tracking-[0.02em] text-ink uppercase sm:text-[1.15rem]">
-                  {member.name}
+            <div className="relative flex min-h-[5.25rem] flex-1 items-start justify-between gap-3 px-4 py-4 sm:min-h-[5.75rem] sm:px-5 sm:py-5">
+              <div className="min-w-0 w-full sm:flex-1 sm:w-auto">
+                <h3 className="m-0 pr-12 font-display text-[1.05rem] leading-[1.12] font-bold tracking-[0.02em] text-ink uppercase sm:pr-0 sm:text-[1.15rem] sm:whitespace-nowrap">
+                  {firstName}
+                  {lastName ? (
+                    <>
+                      <br className="sm:hidden" />
+                      <span className="hidden sm:inline"> </span>
+                      {lastName}
+                    </>
+                  ) : null}
                 </h3>
-                <p className="mt-1.5 mb-0 text-[13px] leading-snug text-muted">{member.title}</p>
+                <p className="mt-1.5 mb-0 w-full text-[13px] leading-snug text-muted">{member.title}</p>
               </div>
 
               <span
-                className="mt-0.5 grid h-9 w-9 flex-none place-items-center rounded-full border-[1.5px] border-[#e8a0a0] text-ink transition duration-200 group-hover:border-red group-hover:bg-red group-hover:text-white"
+                className="absolute top-4 right-4 mt-0.5 grid h-9 w-9 flex-none place-items-center rounded-full border-[1.5px] border-[#e8a0a0] text-ink transition duration-200 group-hover:border-red group-hover:bg-red group-hover:text-white sm:static sm:top-auto sm:right-auto"
                 aria-hidden
               >
                 <LinkedInIcon size={15} />

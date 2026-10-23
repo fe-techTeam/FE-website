@@ -1,7 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
-<circle cx="33" cy="39" r="4" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="67" cy="31" r="4" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="68" cy="66" r="4" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M37 39c12 0 17-6 26-8M36 42c6 11 15 18 28 22" stroke="#111111" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M28 29l6 6M34 29l-6 6" stroke="#111111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="37" fill="#F4F4F4"/>
+  <!-- Hub + channels: one connected system plan -->
+  <circle cx="50" cy="50" r="7" stroke="#111111" stroke-width="2.3"/>
+  <circle cx="50" cy="50" r="3" fill="#111111"/>
+  <circle cx="28" cy="34" r="5.5" stroke="#111111" stroke-width="2.2"/>
+  <circle cx="72" cy="34" r="5.5" stroke="#111111" stroke-width="2.2"/>
+  <circle cx="50" cy="74" r="5.5" stroke="#111111" stroke-width="2.2"/>
+  <path d="M34 38l10 8M66 38l-10 8M50 57v11" stroke="#111111" stroke-width="2.2" stroke-linecap="round"/>
 </svg>

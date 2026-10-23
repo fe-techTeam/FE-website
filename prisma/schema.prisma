@@ -1,0 +1,399 @@
+// First Economy admin panel — data model.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Feature 1 & 2 — Auth, roles and per-module permissions
+// ---------------------------------------------------------------------------
+
+/// Ordered from most to least privileged. `SUPER_ADMIN` bypasses ModulePermission.
+enum Role {
+  SUPER_ADMIN
+  EDITOR
+  AUTHOR
+  VIEWER
+}
+
+enum UserStatus {
+  ACTIVE
+  INVITED
+  DISABLED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String?
+  role         Role       @default(VIEWER)
+  status       UserStatus @default(INVITED)
+  title        String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  sessions    Session[]
+  permissions ModulePermission[]
+  tokens      AuthToken[]
+  auditLogs   AuditLog[]
+
+  createdEntries   ContentEntry[]   @relation("EntryCreatedBy")
+  updatedEntries   ContentEntry[]   @relation("EntryUpdatedBy")
+  publishedEntries ContentEntry[]   @relation("EntryPublishedBy")
+  versions         ContentVersion[]
+  settings         Setting[]
+
+  @@index([status])
+}
+
+/// Server-side session record. The browser only holds an encrypted JWT
+/// pointing at this row, so revoking here forces an immediate logout.
+model Session {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  lastSeenAt DateTime @default(now())
+  revokedAt DateTime?
+  ip        String?
+  userAgent String?
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+/// Per-module override. Absent row = fall back to the role's default matrix.
+model ModulePermission {
+  id         String  @id @default(cuid())
+  userId     String
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Key from the module registry in src/lib/admin/modules.ts
+  module     String
+  canView    Boolean @default(true)
+  canEdit    Boolean @default(false)
+  canPublish Boolean @default(false)
+  canDelete  Boolean @default(false)
+
+  @@unique([userId, module])
+}
+
+enum AuthTokenPurpose {
+  PASSWORD_RESET
+  INVITE
+}
+
+/// Single-use token for password reset and user invites. Only the hash is stored.
+model AuthToken {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String           @unique
+  purpose   AuthTokenPurpose
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Content structure — the shape of the site, stored as data
+//
+// The site's pages and the sections inside them change over time. Keeping the
+// structure in the database (rather than a hardcoded registry) means adding a
+// page, adding a section to a page, or changing a section's fields is an admin
+// task, not a code change and redeploy.
+// ---------------------------------------------------------------------------
+
+enum ContentKind {
+  /// Many entries — case studies, insights, roles.
+  COLLECTION
+  /// Exactly one entry — the About page, site settings.
+  SINGLETON
+}
+
+/// One content type = one item in the admin sidebar.
+model ContentType {
+  id       String      @id @default(cuid())
+  /// Stable key used in URLs and on ContentEntry.module.
+  key      String      @unique
+  label    String
+  singular String
+  kind     ContentKind @default(COLLECTION)
+  group    String
+  icon     String      @default("FileText")
+  description String   @default("")
+
+  /// Public route pattern for an entry, e.g. "/work/[slug]".
+  detailPath      String?
+  /// Public routes to revalidate when an entry is published.
+  revalidatePaths String[]
+
+  /// Entries are hand-ordered and `position` matters on the site.
+  orderable    Boolean  @default(false)
+  /// This type is built from stackable sections rather than fixed fields.
+  usesSections Boolean  @default(false)
+  /// Section type keys allowed here. Empty = all enabled section types.
+  allowedSectionKeys String[]
+
+  /// FieldDef[] — the fixed fields on every entry of this type.
+  fields Json
+
+  position Int     @default(0)
+  enabled  Boolean @default(true)
+  /// Seeded from code; protected from deletion in the UI.
+  isSystem Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+/// A reusable section — hero, stats band, CTA. Pages stack these in any order.
+model SectionType {
+  id          String @id @default(cuid())
+  key         String @unique
+  label       String
+  description String @default("")
+  icon        String @default("LayoutTemplate")
+  group       String @default("Content")
+
+  /// FieldDef[] — what an editor fills in for this section.
+  fields Json
+
+  position Int     @default(0)
+  enabled  Boolean @default(true)
+  isSystem Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+// ---------------------------------------------------------------------------
+// Feature 5 — Audit log
+// ---------------------------------------------------------------------------
+
+enum AuditAction {
+  LOGIN
+  LOGIN_FAILED
+  LOGOUT
+  SESSION_REVOKED
+  USER_INVITED
+  USER_UPDATED
+  USER_DISABLED
+  PASSWORD_RESET
+  PERMISSIONS_UPDATED
+  CREATE
+  UPDATE
+  DELETE
+  PUBLISH
+  UNPUBLISH
+  SCHEDULE
+  UNSCHEDULE
+  SUBMIT_FOR_REVIEW
+  ROLLBACK
+  REVALIDATE
+  IMPORT
+  SETTING_UPDATED
+  STRUCTURE_CREATED
+  STRUCTURE_UPDATED
+  STRUCTURE_DELETED
+  SECTION_ADDED
+  SECTION_REMOVED
+  SECTION_REORDERED
+}
+
+model AuditLog {
+  id     String @id @default(cuid())
+  userId String?
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  /// Denormalised so the log survives user deletion.
+  actorEmail String
+  actorName  String
+
+  action      AuditAction
+  /// Module key, or "auth" / "system" for non-content events.
+  entityType  String
+  entityId    String?
+  entityLabel String?
+  summary     String?
+  /// Field-level diff: { field: { before, after } }
+  diff        Json?
+  ip          String?
+  createdAt   DateTime    @default(now())
+
+  @@index([createdAt])
+  @@index([entityType, entityId])
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Features 6, 7, 10 — Content entries, workflow, versions
+// ---------------------------------------------------------------------------
+
+enum ContentStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+/// One row per piece of content, across every module (case studies, insights,
+/// careers, singleton pages…). `data` is the working draft; `publishedData` is
+/// the frozen copy the public site renders. Shape is validated per module by
+/// the Zod schemas in src/lib/admin/schemas.
+model ContentEntry {
+  id     String @id @default(cuid())
+  /// Key from the module registry in src/lib/admin/modules.ts
+  module String
+  slug   String
+  title  String
+
+  status        ContentStatus @default(DRAFT)
+  data          Json
+  publishedData Json?
+
+  /// Set while a draft exists on top of a published entry.
+  hasUnpublishedChanges Boolean @default(false)
+
+  publishedAt   DateTime?
+  publishedById String?
+  publishedBy   User?     @relation("EntryPublishedBy", fields: [publishedById], references: [id], onDelete: SetNull)
+  /// Feature 6 — scheduled publish. Picked up by the /api/admin/cron/publish route.
+  scheduledFor  DateTime?
+
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById String?
+  createdBy   User?   @relation("EntryCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById String?
+  updatedBy   User?   @relation("EntryUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  versions ContentVersion[]
+
+  @@unique([module, slug])
+  @@index([module, status])
+  @@index([scheduledFor])
+  @@index([updatedAt])
+}
+
+/// Immutable snapshot written on every save and publish. Feature 7 rolls back
+/// by copying `data` from a version onto the entry as a new draft.
+model ContentVersion {
+  id      String       @id @default(cuid())
+  entryId String
+  entry   ContentEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  version Int
+  data    Json
+  status  ContentStatus
+  /// e.g. "Published", "Draft saved", "Rolled back to v3"
+  label   String
+  note    String?
+
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+
+  @@unique([entryId, version])
+  @@index([entryId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Feature 4 — Dashboard inputs
+// ---------------------------------------------------------------------------
+
+enum SubmissionType {
+  CONTACT
+  CAREER_APPLICATION
+  NEWSLETTER
+}
+
+enum SubmissionStatus {
+  NEW
+  READ
+  IN_PROGRESS
+  CLOSED
+  SPAM
+}
+
+/// Captured from the public form routes so the dashboard has a real unread
+/// count. The full inbox UI is Section D of the plan.
+model FormSubmission {
+  id      String           @id @default(cuid())
+  type    SubmissionType
+  status  SubmissionStatus @default(NEW)
+  name    String?
+  email   String
+  phone   String?
+  company String?
+  subject String?
+  message String?
+  /// Everything else the form sent (role slug, interest, source…).
+  payload Json?
+  /// Set when email delivery failed, so nothing is silently lost.
+  deliveryError String?
+  ip        String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type, status])
+  @@index([createdAt])
+}
+
+/// Result of a Feature 4 health scan (broken links / missing images).
+model HealthIssue {
+  id       String  @id @default(cuid())
+  /// "missing-image" | "broken-internal-link" | "empty-required-field"
+  kind     String
+  module   String
+  entryId  String?
+  entrySlug String?
+  field    String
+  value    String
+  detail   String?
+  resolvedAt DateTime?
+  scanId   String
+  createdAt DateTime @default(now())
+
+  @@index([scanId])
+  @@index([kind])
+}
+
+// ---------------------------------------------------------------------------
+// Features 8 & 9 — Preview + cache control, and general settings
+// ---------------------------------------------------------------------------
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+  updatedById String?
+  updatedBy   User?  @relation(fields: [updatedById], references: [id], onDelete: SetNull)
+}
+
+/// Log of every revalidation so the "rebuild" button has visible history.
+model RevalidationLog {
+  id        String   @id @default(cuid())
+  paths     String[]
+  reason    String
+  actorEmail String?
+  ok        Boolean  @default(true)
+  error     String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

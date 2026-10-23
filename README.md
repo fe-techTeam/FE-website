@@ -1,38 +1,81 @@
-# FE-website
+# First Economy website
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Next.js 16 (App Router, Turbopack) marketing site plus an admin panel at `/admin`.
 
-## Getting Started
-
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local     # fill in the secrets, see below
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Public pages live in `src/app/(site)`; the admin panel lives in `src/app/admin`.
+They are separate route groups so the admin does not inherit the site's header,
+footer or page-reveal animations.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family from Vercel.
+## Admin panel
 
-## Learn More
+The admin panel is backed by Postgres via Prisma. First-time setup:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker-compose up -d      # start Postgres on localhost:5433
+npm run db:migrate        # create the schema
+npm run admin:seed        # create the first Super Admin from .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Then sign in at [http://localhost:3000/admin/login](http://localhost:3000/admin/login).
 
-You can check out the [Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+With an empty database, go to **System → Import content** and run the importer.
+It reads the TypeScript content in `src/content/**` and writes it into the
+database — 185 entries across 22 modules. It is safe to re-run: existing entries
+are skipped unless you explicitly choose to overwrite them, and the source files
+are never modified.
 
-## Deploy on Vercel
+### Required environment variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Copy `.env.example` to `.env.local` and set:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` | Postgres connection. Also copy this into `.env` — the Prisma CLI reads that file. |
+| `ADMIN_SESSION_SECRET` | Encrypts the session cookie. Minimum 32 chars: `openssl rand -base64 48` |
+| `ADMIN_CRON_SECRET` | Bearer token for the scheduled-publish endpoint |
+| `ADMIN_SEED_*` | Credentials for the first Super Admin |
+
+### Scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run db:up` / `db:down` | Start / stop the local Postgres container |
+| `npm run db:migrate` | Create and apply a migration |
+| `npm run db:studio` | Browse the database in Prisma Studio |
+| `npm run admin:seed` | Create the first Super Admin (`--reset-password` to change it) |
+
+### Scheduled publishing
+
+Entries can be queued to publish later. A cron job drives it:
+
+```bash
+curl -H "Authorization: Bearer $ADMIN_CRON_SECRET" https://<host>/api/admin/cron/publish
+```
+
+### Roles
+
+| Role | Access |
+| --- | --- |
+| Super Admin | Everything, including users, permissions and system tools |
+| Editor | Create, edit and publish content across all modules |
+| Author | Create and edit drafts, then submit them for review |
+| Viewer | Read-only |
+
+Per-module overrides are set on each user's page under **Users**.
+
+## Notes
+
+This project runs Next.js 16, where Middleware is called **Proxy** (`src/proxy.ts`)
+and request APIs (`cookies`, `headers`, `draftMode`, `params`) are async. See
+`AGENTS.md` — read the bundled docs in `node_modules/next/dist/docs/` before
+assuming an API works the way older versions did.

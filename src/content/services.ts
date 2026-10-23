@@ -53,7 +53,7 @@ export const services: Service[] = [
       "Storyboarding",
       "AI-assisted production",
     ],
-    caseStudySlugs: ["cello-kidzbee", "young-bags", "ajanta-ai-creatives", "poonawalla-ai-creatives"],
+    caseStudySlugs: ["cello-kidzbee", "ajanta-ai-creatives"],
     family: "visual-creative",
   },
   {
@@ -101,7 +101,7 @@ export const services: Service[] = [
       "Influencer media amplification",
       "Reporting",
     ],
-    caseStudySlugs: ["amazon-samsung-great-indian-festival", "adani-airports-safar-ke-humsafar", "royale-touche-stay-curious", "godrej-blue"],
+    caseStudySlugs: ["amazon-samsung-great-indian-festival", "adani-airports-safar-ke-humsafar", "royale-touche-stay-curious"],
     family: "social-creator",
   },
   {
@@ -172,7 +172,7 @@ export const services: Service[] = [
   },
   {
     slug: "social-media",
-    name: "Social Media Management",
+    name: "Social Media",
     shortName: "Social",
     summary:
       "Always-on social strategy, content and community management for both B2B and B2C audiences.",
@@ -190,12 +190,12 @@ export const services: Service[] = [
       "B2B social",
       "B2C social",
     ],
-    caseStudySlugs: ["poonawalla-fraud-awareness", "waaree"],
+    caseStudySlugs: ["waaree"],
     family: "social-creator",
   },
   {
     slug: "seo",
-    name: "SEO Solutions",
+    name: "SEO/AEO/GEO",
     shortName: "SEO",
     summary:
       "Technical, on-page and local SEO built for how search actually works now — including AI Overviews, AEO and GEO.",
@@ -216,7 +216,7 @@ export const services: Service[] = [
       "GEO",
       "AI Overview optimisation",
     ],
-    caseStudySlugs: ["akbar-travels-seo", "shoppers-stop-local-seo", "royale-touche-stay-curious"],
+    caseStudySlugs: ["akbar-travels-seo", "jockey-seo", "royale-touche-stay-curious"],
     family: "performance-data",
   },
   {
@@ -232,7 +232,7 @@ export const services: Service[] = [
       "AI for search (AEO, GEO, LLM visibility)",
       "AI for operations",
     ],
-    caseStudySlugs: ["ajanta-ai-creatives", "poonawalla-ai-creatives", "royale-touche-stay-curious"],
+    caseStudySlugs: ["ajanta-ai-creatives", "royale-touche-stay-curious"],
     family: "ai",
   },
 ];

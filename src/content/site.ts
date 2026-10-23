@@ -1,42 +1,32 @@
-import type { GrowthNode, Office } from "@/content/types";
+import type { Office } from "@/content/types";
 
 export const offices: Office[] = [
   { slug: "mumbai", city: "Mumbai", isHq: true },
   { slug: "bengaluru", city: "Bengaluru" },
   { slug: "pune", city: "Pune" },
-  { slug: "aurangabad", city: "Aurangabad" },
+  { slug: "aurangabad", city: "Chhatrapati Sambhaji Nagar" },
 ];
 
 export const contactInfo = {
-  phone: "+91 22 4977 2200",
-  phoneHref: "tel:+912249772200",
-  email: "hello@firsteconomy.in",
-  emailHref: "mailto:hello@firsteconomy.in",
+  phone: "+91 9664859850",
+  phoneHref: "tel:+919664859850",
+  email: "bilal@firsteconomy.com",
+  emailHref: "mailto:bilal@firsteconomy.com",
 };
 
-export const growthNodes: GrowthNode[] = [
-  { id: "strategy", label: "Strategy", description: "The thinking that connects every capability into one plan.", relatedServiceSlug: undefined },
-  { id: "creative", label: "Creative", description: "Campaign and performance creative across every format.", relatedServiceSlug: "creative" },
-  { id: "media", label: "Media", description: "Integrated media buying across search, social, programmatic and OOH.", relatedServiceSlug: "media-buying" },
-  { id: "technology", label: "Technology", description: "Platforms, ERPs and systems built for scale and compliance.", relatedServiceSlug: "technology" },
-  { id: "social", label: "Social", description: "Always-on content and community across B2B and B2C audiences.", relatedServiceSlug: "social-media" },
-  { id: "search", label: "Search", description: "SEO built for search engines and AI — AEO, GEO and AI Overviews.", relatedServiceSlug: "seo" },
-  { id: "ai", label: "AI", description: "AI applied to creative, analytics, search and operations.", relatedServiceSlug: "ai-solutions" },
-  { id: "influencer", label: "Influencer", description: "Creator networks from celebrity collaborations to micro-creators.", relatedServiceSlug: "influencer-marketing" },
-  { id: "video", label: "Video", description: "Brand and social video production, increasingly AI-accelerated.", relatedServiceSlug: "video-production" },
-  { id: "marketplace", label: "Marketplace", description: "Marketplace listing, catalogue and store management.", relatedServiceSlug: "marketplace-management" },
-];
+export const footerCta = {
+  headline: "Ready to engineer your growth system?",
+  primaryLabel: "Let’s talk",
+  primaryHref: "/contact",
+};
 
-type Stat = { label: string; value: string; sublabel?: string };
-
-export const companyStats: Stat[] = [
-  { label: "People", value: "250+" },
-  { label: "Cities", value: "4" },
-  { label: "Agencies", value: "62+", sublabel: "Local Planet Network" },
-  { label: "Markets", value: "85+" },
-  { label: "Media Billings", value: "$17.2B+" },
-  { label: "Media Awards", value: "225+" },
-];
+/** Official First Economy profiles (from firsteconomy.com). */
+export const socialLinks = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/first-economy/" },
+  { label: "Instagram", href: "https://www.instagram.com/first_economy/" },
+  { label: "YouTube", href: "https://www.youtube.com/@FirstEconomy" },
+  { label: "Facebook", href: "https://www.facebook.com/FirstEconomy/" },
+] as const;
 
 export const dataTools = [
   "Google Trends",
@@ -68,4 +58,5 @@ export const platformPartners = [
   "Snapchat",
   "Moneycontrol",
   "X Ads",
+  "IndiGo",
 ];

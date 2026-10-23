@@ -1,40 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-  <!-- Outer ring  gap at top-right for arrow -->
-  <path
-    d="M41.2 19.2a18 18 0 1 0 3.6 25.1"
-    stroke="#FFFFFF"
-    stroke-width="2.6"
-    stroke-linecap="round"
-  />
-  <!-- Inner ring  gap at top-right for arrow -->
-  <path
-    d="M35.5 24.8a10 10 0 1 0 2.1 14"
-    stroke="#FFFFFF"
-    stroke-width="2.6"
-    stroke-linecap="round"
-  />
-  <!-- Bullseye -->
-  <circle cx="28" cy="36" r="3.2" fill="#FFFFFF" />
-  <!-- Arrow shaft into bullseye -->
-  <path
-    d="M52 12L31.2 32.8"
-    stroke="#FFFFFF"
-    stroke-width="2.6"
-    stroke-linecap="round"
-  />
-  <!-- Arrow tip into center -->
-  <path
-    d="M31.2 32.8L28 36"
-    stroke="#FFFFFF"
-    stroke-width="2.6"
-    stroke-linecap="round"
-  />
-  <!-- V fletching -->
-  <path
-    d="M46.5 10.5L52 12L50.5 17.5"
-    stroke="#FFFFFF"
-    stroke-width="2.6"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="42" cy="56" r="24" stroke="#FFFFFF" stroke-width="2.6"/>
+  <circle cx="42" cy="56" r="13" stroke="#FFFFFF" stroke-width="2.6"/>
+  <circle cx="42" cy="56" r="4.5" fill="#FFFFFF"/>
+  <path d="M42 56l32-32M66 22h10v10" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

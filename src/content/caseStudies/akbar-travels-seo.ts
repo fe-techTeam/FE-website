@@ -1,0 +1,46 @@
+import type { CaseStudy } from "@/content/types";
+
+export const akbarTravelsSeo: CaseStudy = {
+    slug: "akbar-travels-seo",
+    client: "Akbar Travels",
+    campaign: "SEO Growth",
+    industry: "travel-hospitality",
+    services: ["seo"],
+    hero: "Taking on travel giants and technical roadblocks to make a mark in one of the most competitive search spaces.",
+    challenge: "Compete against major OTAs and government visa-search properties, with Angular JS technical constraints on parts of the site.",
+    objective: "Win organic visibility against established OTAs (MakeMyTrip, Yatra, EaseMyTrip) and government websites for visa-related queries — despite Angular JS limitations on certain site sections.",
+    mandate: [
+      "Map primary, secondary and tertiary keyword themes to focused primary pages",
+      "Use secondary pages to link into primaries and improve contextuality",
+      "Improve CTAs and leverage WhatsApp to garner Holiday and Visa leads",
+      "Publish trend-based travel blogs for internal linking",
+      "Use off-page PR and guest blogging to grow domain authority",
+    ],
+    executionSummary: "Keyword architecture, CTA and WhatsApp lead capture, trend blogs, and off-page authority building — with measurable AI Overview visibility.",
+    execution: [
+      "Primary/secondary/tertiary keyword themes mapped to single primary pages",
+      "Secondary pages linked into primaries for contextual strength",
+      "CTA improvements and WhatsApp lead capture for Holidays and Visa",
+      "Trend-based blogs promoting internal linking",
+      "Off-page PR and guest blogging for domain authority and rankings",
+    ],
+    executionPillars: [
+      { title: "Keyword Architecture", description: "Primary pages mapped to primary, secondary and tertiary keyword themes." },
+      { title: "Internal Linking", description: "Secondary pages and trend blogs feeding contextual authority." },
+      { title: "Lead Capture", description: "Stronger CTAs and WhatsApp flows for Holidays and Visa." },
+      { title: "Authority & AI", description: "PR, guest blogging, and AI Overview visibility at scale." },
+    ],
+    results: [
+      { label: "Traffic growth", value: "130%+" },
+      { label: "Visa leads (monthly)", value: "1,000+ → 20,000+" },
+      { label: "Top 3 non-brand keywords", value: "165% improvement" },
+      { label: "AI Overview keywords", value: "38.5K / 87.1K" },
+    ],
+    tags: ["SEO", "Travel", "AI Overviews", "Content"],
+    clientLogo: "/images/partners/clients/akbar-travels.png",
+    galleryGroups: [],
+    gallery: [],
+    flagship: true,
+    featured: true,
+    family: "media-performance",
+  };

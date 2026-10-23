@@ -1,45 +1,37 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, SlidersHorizontal } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import WorkCaseCard from "@/components/work/WorkCaseCard";
-import { industries } from "@/content/industries";
 import {
   matchesWorkFilter,
   orderedWorkStudies,
+  workFilterFromService,
   workFilters,
   type WorkFilterKey,
 } from "@/content/workPage";
 import type { CaseStudy } from "@/content/types";
 
-const industryFilters = industries.filter((industry) => industry.caseStudySlugs.length > 0);
-
-const industryChipLabels: Record<string, string> = {
-  "real-estate": "Real Estate",
-  bfsi: "BFSI",
-  "consumer-retail": "Consumer & Retail",
-  "travel-hospitality": "Travel & Hospitality",
-  "technology-manufacturing-energy": "Tech & Manufacturing",
-};
-
 export default function WorkCaseBrowser({ caseStudies }: { caseStudies: CaseStudy[] }) {
   const [active, setActive] = useState<WorkFilterKey>("all");
-  const [industry, setIndustry] = useState("all");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filterWrapRef = useRef<HTMLDivElement>(null);
+
+  // Deep links like /work?service=seo preselect their tab. Read after mount (not during render)
+  // so the server-rendered HTML always lists every case study.
+  useEffect(() => {
+    const fromUrl = workFilterFromService(new URLSearchParams(window.location.search).get("service"));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing with the URL, an external system
+    if (fromUrl) setActive(fromUrl);
+  }, []);
 
   const ordered = useMemo(() => orderedWorkStudies(caseStudies), [caseStudies]);
 
   const filtered = useMemo(() => {
-    return ordered.filter((study) => {
-      if (!matchesWorkFilter(study, active)) return false;
-      if (industry !== "all" && study.industry !== industry) return false;
-      return true;
-    });
-  }, [ordered, active, industry]);
+    return ordered.filter((study) => matchesWorkFilter(study, active));
+  }, [ordered, active]);
 
-  const industryActive = industry !== "all";
-  const activeIndustryName = industryFilters.find((item) => item.slug === industry)?.name;
+  const activeLabel = workFilters.find((filter) => filter.key === active)?.label ?? "All Cases";
 
   useEffect(() => {
     if (!filtersOpen) return;
@@ -62,27 +54,18 @@ export default function WorkCaseBrowser({ caseStudies }: { caseStudies: CaseStud
     };
   }, [filtersOpen]);
 
-  function selectIndustry(slug: string) {
-    setIndustry(slug);
+  function selectFilter(key: WorkFilterKey) {
+    setActive(key);
     setFiltersOpen(false);
   }
 
-  const industryOptions = [
-    { slug: "all", label: "All industries", name: "All industries" },
-    ...industryFilters.map((item) => ({
-      slug: item.slug,
-      label: industryChipLabels[item.slug] ?? item.name,
-      name: item.name,
-    })),
-  ];
-
   return (
     <div>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+      <div className="hidden sm:block">
         <div
           role="group"
           aria-label="Filter case studies by capability"
-          className="work-filter-tabs min-w-0 flex-1"
+          className="work-filter-tabs"
         >
           {workFilters.map((filter) => {
             const selected = active === filter.key;
@@ -91,10 +74,8 @@ export default function WorkCaseBrowser({ caseStudies }: { caseStudies: CaseStud
                 key={filter.key}
                 type="button"
                 aria-pressed={selected}
-                className={`text-cta tap-target shrink-0 px-3.5 py-2.5 whitespace-nowrap transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red sm:px-4 ${
-                  selected
-                    ? "bg-ink text-white"
-                    : "text-ink hover:bg-mist focus-visible:bg-mist"
+                className={`text-cta tap-target shrink-0 px-3.5 py-2.5 whitespace-nowrap transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red ${
+                  selected ? "bg-ink text-white" : "text-ink hover:bg-mist focus-visible:bg-mist"
                 }`}
                 onClick={() => setActive(filter.key)}
               >
@@ -103,61 +84,52 @@ export default function WorkCaseBrowser({ caseStudies }: { caseStudies: CaseStud
             );
           })}
         </div>
+      </div>
 
-        <div ref={filterWrapRef} className="relative self-end sm:self-auto">
+      <div className="sm:hidden">
+        <div ref={filterWrapRef} className="relative w-fit">
           <button
             type="button"
             aria-expanded={filtersOpen}
             aria-haspopup="listbox"
-            aria-controls="work-industry-filters"
-            aria-label={
-              industryActive
-                ? `Filter by industry, ${activeIndustryName} selected`
-                : "Filter by industry"
-            }
-            className={`text-cta tap-target inline-flex w-fit shrink-0 items-center gap-2 border px-3.5 py-2.5 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red ${
-              filtersOpen || industryActive
-                ? "border-ink bg-ink text-white"
-                : "border-line text-ink hover:border-ink hover:text-red"
+            aria-controls="work-capability-filters"
+            aria-label={`Filter by capability, ${activeLabel} selected`}
+            className={`text-cta tap-target inline-flex w-fit items-center gap-2.5 border px-4 py-2.5 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red ${
+              filtersOpen ? "border-ink bg-ink text-white" : "border-line text-ink hover:border-ink hover:text-red"
             }`}
             onClick={() => setFiltersOpen((open) => !open)}
           >
-            Filter
-            {industryActive ? (
-              <span className="grid size-5 place-items-center rounded-full bg-red text-[10px] font-bold text-white">
-                1
-              </span>
-            ) : (
-              <SlidersHorizontal size={18} strokeWidth={2} aria-hidden />
-            )}
+            {activeLabel}
+            <ChevronDown
+              size={18}
+              strokeWidth={2}
+              aria-hidden
+              className={`transition-transform ${filtersOpen ? "rotate-180" : ""}`}
+            />
           </button>
 
           <div
-            id="work-industry-filters"
+            id="work-capability-filters"
             hidden={!filtersOpen}
             role="listbox"
-            aria-label="Filter by industry"
-            className="absolute top-[calc(100%+0.5rem)] right-0 z-30 w-[min(18.5rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-line bg-white py-2 shadow-[0_16px_40px_rgba(0,0,0,0.12)]"
+            aria-label="Filter by capability"
+            className="absolute top-[calc(100%+0.5rem)] left-0 z-30 w-[min(18.5rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-line bg-white py-2 shadow-[0_16px_40px_rgba(0,0,0,0.12)]"
           >
             <ul className="m-0 list-none p-0">
-              {industryOptions.map((option) => {
-                const selected = industry === option.slug;
+              {workFilters.map((filter) => {
+                const selected = active === filter.key;
                 return (
-                  <li key={option.slug} role="presentation">
+                  <li key={filter.key} role="presentation">
                     <button
                       type="button"
                       role="option"
                       aria-selected={selected}
-                      aria-label={option.name}
-                      title={option.name}
                       className={`text-cta tap-target flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-red ${
-                        selected
-                          ? "bg-ink text-white"
-                          : "text-ink hover:bg-mist focus-visible:bg-mist"
+                        selected ? "bg-ink text-white" : "text-ink hover:bg-mist focus-visible:bg-mist"
                       }`}
-                      onClick={() => selectIndustry(option.slug)}
+                      onClick={() => selectFilter(filter.key)}
                     >
-                      <span className="min-w-0 truncate">{option.label}</span>
+                      <span className="min-w-0 truncate">{filter.label}</span>
                       {selected ? (
                         <Check size={16} strokeWidth={2.5} className="shrink-0" aria-hidden />
                       ) : null}
@@ -172,7 +144,6 @@ export default function WorkCaseBrowser({ caseStudies }: { caseStudies: CaseStud
 
       <p className="sr-only" aria-live="polite">
         {filtered.length} case {filtered.length === 1 ? "study" : "studies"} shown
-        {industryActive && activeIndustryName ? ` in ${activeIndustryName}` : ""}
       </p>
 
       {filtered.length > 0 ? (
@@ -188,7 +159,7 @@ export default function WorkCaseBrowser({ caseStudies }: { caseStudies: CaseStud
         </ul>
       ) : (
         <p className="text-body section-media mb-0 max-w-md text-muted" role="status">
-          No case studies match these filters. Try another capability or clear the industry filter.
+          No case studies match this filter. Try another capability.
         </p>
       )}
     </div>

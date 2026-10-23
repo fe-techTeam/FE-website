@@ -1,0 +1,230 @@
+/* Type scale — WCAG-friendly mins; labels stay small but ≥13px for AA */
+.text-eyebrow {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+/* Brand red on ink fails AA at 13px (~3.8:1); use a lighter red (≥4.5:1) */
+.text-eyebrow-on-dark {
+  color: #e84848;
+}
+
+.text-body {
+  font-size: 1rem; /* 16px */
+  line-height: 1.6;
+}
+
+.text-body-sm {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.55;
+}
+
+.text-cta {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* GSAP button motion — keep transforms on their own layer (CSS only; avoid inline styles that race hydration) */
+a.text-cta,
+a.gsap-btn,
+button:not(:disabled),
+input[type="submit"]:not(:disabled) {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.text-nav {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text-display-xl {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.125rem, 8vw + 0.25rem, 4.75rem); /* ~34–76 */
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.text-display-lg {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw + 0.75rem, 3.25rem); /* 32–52 */
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
+.text-display-md {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.875rem, 3.2vw + 0.75rem, 2.875rem); /* 30–46 */
+  line-height: 1.04;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
+.text-display-sm {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 2.5vw + 0.75rem, 2.375rem); /* 28–38 */
+  line-height: 1.04;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
+.text-stat {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  /* Prefer container width so 4-col bands don't overflow ("1,000+", etc.) */
+  font-size: clamp(1.75rem, 5vw + 0.75rem, 4.5rem); /* fallback */
+  font-size: clamp(1.75rem, 22cqi, 4.5rem); /* ~28–72, column-aware */
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+/* Long non-numeric result values (phrases) inside stat columns */
+.text-stat-phrase {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.25rem, 3.5vw + 0.35rem, 1.85rem); /* fallback */
+  font-size: clamp(1.25rem, 9cqi + 0.35rem, 1.85rem); /* ~20–30 */
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 3px;
+}
+
+/* Ensure disabled controls aren't focusable-looking */
+:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Minimum interactive target ~44×44 (WCAG 2.5.5 / 2.5.8) */
+.tap-target {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+.tap-target-sm {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+/* Form controls — visible focus without removing keyboard outline */
+.field-control {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.field-control::placeholder {
+  color: var(--color-muted);
+}
+.field-control:focus {
+  border-color: var(--color-ink);
+  outline: none;
+}
+.field-control:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: 0;
+  z-index: 100;
+  transform: translateY(-120%);
+  background: var(--color-ink);
+  color: var(--color-white);
+  padding: 10px 16px;
+  font-size: 0.8125rem; /* 13px — still readable for skip link */
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(12px);
+  outline-offset: 2px;
+}
+
+.font-display {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.005em;
+}
+
+.font-heading {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.005em;
+  line-height: 1.02;
+  text-transform: uppercase;
+}
+
+::selection {
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
+.container-frame {
+  width: 100%;
+  margin-inline: auto;
+  max-width: var(--frame);
+  padding-inline: var(--gutter);
+}
+
+.container-content {
+  width: 100%;
+  margin-inline: auto;
+  max-width: var(--content);
+  padding-inline: var(--gutter);
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--content);
+  margin-inline: auto;
+}

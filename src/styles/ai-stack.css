@@ -1,0 +1,151 @@
+/* Home services — AI core card stack.
+   Default (SSR / reduced motion): hub + readable card grid.
+   .is-stacking (added by AiServicesStack): the card list becomes a compact, fixed-height
+   scroller; cards are sticky inside it so each slides over the previous as the mouse wheel
+   scrolls the list. The page keeps its normal height. GSAP adds the depth/scale effect. */
+
+.ai-stack {
+  --ai-hub-size: 6.5rem;
+  --ai-card-h: 20rem;
+  --ai-stick: 0.75rem;
+  --ai-stack-gap: 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.ai-stack__hub-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-inline: 0.75rem; /* room for the dashed orbit ring */
+}
+
+.ai-stack__hub {
+  width: var(--ai-hub-size);
+  flex: none;
+}
+
+.ai-stack__progress {
+  display: none;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.ai-stack__cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ai-stack__card-link {
+  display: flex;
+  height: 100%;
+  min-height: 15rem;
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  .ai-stack {
+    --ai-hub-size: 8rem;
+  }
+
+  .ai-stack__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ai-stack {
+    --ai-hub-size: clamp(11rem, 17vw, 15rem);
+    --ai-card-h: 21rem;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 3rem;
+  }
+
+  .ai-stack__hub-col {
+    flex-direction: column;
+    gap: 2rem;
+    padding-inline: 0;
+  }
+
+  .ai-stack__progress {
+    width: min(100%, 15rem);
+    flex: none;
+  }
+}
+
+/* Stacking mode — fixed-height inner scroller of sticky cards. */
+.ai-stack.is-stacking {
+  align-items: center;
+}
+
+.ai-stack.is-stacking .ai-stack__hub-col {
+  justify-content: space-between;
+}
+
+.ai-stack.is-stacking .ai-stack__progress {
+  display: flex;
+}
+
+/* Height = card + the three peeking edges + top/bottom breathing room, so the last card
+   seats exactly when the list reaches its end. */
+.ai-stack.is-stacking .ai-stack__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ai-stack-gap);
+  height: calc(var(--ai-card-h) + 4.125rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-inline: -0.75rem;
+  padding: 0 0.75rem 0.75rem;
+  scrollbar-width: none;
+  /* Soften the cut where the incoming card leaves the window (fade = bottom padding). */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 0.75rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 0.75rem), transparent);
+}
+
+.ai-stack.is-stacking .ai-stack__cards::-webkit-scrollbar {
+  display: none;
+}
+
+.ai-stack.is-stacking .ai-stack__cards:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 4px;
+}
+
+/* Each card sticks a little lower than the one before (max 3 visible edges). */
+.ai-stack.is-stacking .ai-stack__card {
+  position: sticky;
+  top: calc(var(--ai-stick) + min(var(--i, 0), 3) * 0.875rem);
+  flex: none;
+  height: var(--ai-card-h);
+}
+
+.ai-stack.is-stacking .ai-stack__card-link {
+  min-height: 0;
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+
+@media (min-width: 640px) {
+  .ai-stack.is-stacking .ai-stack__cards {
+    margin-inline: 0;
+    padding-inline: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ai-stack.is-stacking .ai-stack__hub-col {
+    justify-content: center;
+  }
+}

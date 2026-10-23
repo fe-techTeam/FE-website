@@ -1,0 +1,146 @@
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-3xl: 120rem;
+  --breakpoint-4xl: 160rem;
+}
+
+:root {
+  --color-ink: #0a0a0a;
+  --color-paper: #f4f4f2;
+  --color-mist: #f8f8f7;
+  --color-line: #c9c9c9;
+  /* AA contrast ≥4.5:1 on paper / ink */
+  --color-muted: #4a4a4a;
+  --color-muted-on-dark: #c8c8c8;
+  --color-red: #d22525;
+  --color-white: #ffffff;
+
+  --font-display: var(--font-barlow);
+  --font-heading: var(--font-barlow);
+  --font-body: var(--font-archivo);
+
+  --gutter: 20px;
+  --frame: 100%;
+  --content: 100%;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+@media (min-width: 640px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+@media (min-width: 768px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 64px;
+    --frame: 1440px;
+    --content: 1280px;
+  }
+}
+@media (min-width: 1536px) {
+  :root {
+    --gutter: 80px;
+    --frame: 1600px;
+    --content: 1360px;
+  }
+}
+@media (min-width: 1920px) {
+  :root {
+    --gutter: 96px;
+    --frame: 1800px;
+    --content: 1520px;
+  }
+}
+@media (min-width: 2560px) {
+  :root {
+    --gutter: 120px;
+    --frame: 2100px;
+    --content: 1760px;
+  }
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+  --color-line: var(--color-line);
+  --color-muted: var(--color-muted);
+  --color-muted-on-dark: var(--color-muted-on-dark);
+  --color-red: var(--color-red);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  --font-sans: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Slim, brand-toned scrollbar — applies sitewide unless a component overrides it. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-line);
+  border: 2.5px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-red);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

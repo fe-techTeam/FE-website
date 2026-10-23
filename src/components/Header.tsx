@@ -3,29 +3,38 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import AnimatedMenuButton from "@/components/AnimatedMenuButton";
+import GrowthCta from "@/components/GrowthCta";
+import MobileNavSidebar from "@/components/MobileNavSidebar";
 
 const primaryNav = [
-  { label: "Work", href: "/work" },
-  { label: "Services", href: "/services" },
-  { label: "Capabilities", href: "/our-advantage" },
   { label: "About", href: "/about" },
-  { label: "Insights", href: "/insights" },
+  { label: "Services", href: "/services" },
+  { label: "Work", href: "/work" },
   { label: "Careers", href: "/careers" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrollLocked, setScrollLocked] = useState(false);
   const menuId = useId();
   const titleId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+
+  const closeMenu = useCallback(() => setOpen(false), []);
+  const toggleMenu = useCallback(() => setOpen((v) => !v), []);
+  const handleClosed = useCallback(() => setScrollLocked(false), []);
 
   useEffect(() => {
-    if (!open) return;
+    if (open) setScrollLocked(true);
+  }, [open]);
+
+  useEffect(() => {
+    if (!scrollLocked) return;
 
     const panel = panelRef.current;
 
@@ -41,7 +50,7 @@ export default function Header() {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
         e.preventDefault();
-        setOpen(false);
+        closeMenu();
         return;
       }
 
@@ -73,106 +82,91 @@ export default function Header() {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = prevOverflow;
-      buttonRef.current?.focus();
     };
-  }, [open]);
+  }, [scrollLocked, closeMenu]);
+
+  useEffect(() => {
+    if (open || scrollLocked) return;
+    buttonRef.current?.focus();
+  }, [open, scrollLocked]);
+
+  useEffect(() => {
+    const desktopNav = window.matchMedia("(min-width: 1024px)");
+
+    function handleDesktopNav(event: MediaQueryListEvent | MediaQueryList) {
+      if (event.matches && open) closeMenu();
+    }
+
+    handleDesktopNav(desktopNav);
+    desktopNav.addEventListener("change", handleDesktopNav);
+    return () => desktopNav.removeEventListener("change", handleDesktopNav);
+  }, [open, closeMenu]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-paper px-[var(--gutter)] py-3.5 sm:py-[18px]">
-      <div className="mx-auto flex max-w-[var(--content)] items-center justify-between gap-3 sm:gap-[clamp(16px,2.5vw,40px)]">
-        <Link href="/" className="flex min-w-0 flex-none items-center" aria-label="First Economy home">
-          <Image
-            src="/assets/fe_logo_black.svg"
-            alt="First Economy — Your Growth Partner"
-            width={143}
-            height={46}
-            priority
-            unoptimized
-            className="h-9 w-auto max-w-[min(143px,42vw)] sm:h-[46px] sm:max-w-none"
-          />
-        </Link>
-
-        <nav
-          className="text-nav hidden min-w-0 flex-1 items-center justify-center gap-[clamp(12px,1.9vw,32px)] overflow-x-auto whitespace-nowrap xl:flex"
-          aria-label="Primary"
-        >
-          {primaryNav.map((item) => {
-            const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
-            return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={active ? "page" : undefined}
-              className={`rounded-sm border-b pb-0.5 transition hover:text-red focus-visible:outline-offset-4 ${
-                active ? "border-red text-ink" : "border-transparent"
-              }`}
-            >
-              {item.label}
-            </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex flex-none items-center gap-2 sm:gap-3">
-          <Link
-            href="/contact"
-            className="text-cta hidden min-h-11 items-center gap-3.5 bg-ink px-4 py-3 pl-5 text-white transition hover:bg-red focus-visible:outline-offset-2 md:inline-flex lg:px-5 lg:py-3.5 lg:pl-6"
-          >
-            Let&rsquo;s talk
-            <span className="grid h-7 w-7 place-items-center rounded-full border border-white/80" aria-hidden>
-              <ArrowRight size={14} />
-            </span>
+    <>
+      <header
+        className={`sticky top-0 border-b border-black/5 bg-paper px-[var(--gutter)] py-3.5 sm:py-[18px] ${
+          open ? "z-[120]" : "z-50"
+        }`}
+      >
+        <div className="mx-auto flex max-w-[var(--content)] items-center justify-between gap-2 sm:gap-[clamp(16px,2.5vw,40px)]">
+          <Link href="/" className="flex min-w-0 flex-none items-center" aria-label="First Economy home">
+            <Image
+              src="/images/brand/fe_logo_black.svg"
+              alt="First Economy — Your Growth Partner"
+              width={143}
+              height={46}
+              priority
+              unoptimized
+              className="h-9 w-auto max-w-[min(143px,42vw)] sm:h-[46px] sm:max-w-none"
+            />
           </Link>
 
-          <button
-            ref={buttonRef}
-            type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls={menuId}
-            aria-haspopup="dialog"
-            onClick={() => setOpen((v) => !v)}
-            className="tap-target flex items-center justify-center text-ink transition hover:text-red xl:hidden"
+          <nav
+            className="text-nav hidden min-w-0 flex-1 items-center justify-center gap-3 overflow-x-auto whitespace-nowrap lg:flex lg:gap-4 xl:gap-[clamp(12px,1.9vw,32px)]"
+            aria-label="Primary"
           >
-            {open ? <X size={22} aria-hidden /> : <Menu size={22} aria-hidden />}
-          </button>
-        </div>
-      </div>
-
-      {open ? (
-        <div
-          id={menuId}
-          ref={panelRef}
-          className="border-t border-black/5 bg-paper py-8 xl:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
-        >
-          <p id={titleId} className="sr-only">
-            Site navigation
-          </p>
-          <nav className="mx-auto flex max-w-[var(--content)] flex-col gap-5 sm:gap-6" aria-label="Mobile">
-            {primaryNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="font-display text-[clamp(1.75rem,6vw,2.25rem)] uppercase text-ink transition hover:text-red focus-visible:outline-offset-4"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link
-              href="/contact"
-              onClick={() => setOpen(false)}
-              className="text-cta mt-2 inline-flex min-h-12 w-fit items-center gap-3.5 bg-ink px-6 py-3 text-white"
-            >
-              Let&rsquo;s talk
-              <ArrowRight size={14} aria-hidden />
-            </Link>
+            {primaryNav.map((item) => {
+              const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`rounded-sm pb-0.5 transition hover:text-red focus-visible:outline-offset-4 ${
+                    active ? "text-red" : ""
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
+
+          <div className="relative z-[121] flex flex-none items-center gap-1.5 sm:gap-3">
+            <GrowthCta href="/contact" variant="primary" compact className="max-[360px]:hidden!">
+              Let&rsquo;s talk
+            </GrowthCta>
+
+            <AnimatedMenuButton
+              open={open}
+              onClick={toggleMenu}
+              controls={menuId}
+              buttonRef={buttonRef}
+            />
+          </div>
         </div>
-      ) : null}
-    </header>
+      </header>
+
+      <MobileNavSidebar
+        open={open}
+        onClose={closeMenu}
+        onClosed={handleClosed}
+        items={primaryNav}
+        menuId={menuId}
+        titleId={titleId}
+        panelRef={panelRef}
+      />
+    </>
   );
 }

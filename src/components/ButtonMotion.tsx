@@ -5,11 +5,18 @@ import gsap from "gsap";
 
 const BTN_SELECTOR = "a.text-cta, a.gsap-btn, button:not(:disabled), input[type='submit']:not(:disabled)";
 
+/** Track bound nodes without mutating React-managed attributes (avoids hydration mismatch). */
+const boundButtons = new WeakSet<HTMLElement>();
+
+function shouldSkipButton(el: HTMLElement) {
+  return el.closest(".skip-link") !== null || el.hasAttribute("data-no-btn-motion");
+}
+
 function resolveButton(target: EventTarget | null): HTMLElement | null {
   if (!(target instanceof Element)) return null;
   const el = target.closest(BTN_SELECTOR);
   if (!(el instanceof HTMLElement)) return null;
-  if (el.closest(".skip-link")) return null;
+  if (shouldSkipButton(el)) return null;
   return el;
 }
 
@@ -42,11 +49,12 @@ export default function ButtonMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const cleanups: Array<() => void> = [];
+      const enterByEl = new WeakMap<HTMLElement, () => void>();
 
       const bind = (el: HTMLElement) => {
-        if (el.dataset.gsapBtnBound === "1") return;
-        el.dataset.gsapBtnBound = "1";
-        el.classList.add("gsap-btn-ready");
+        if (shouldSkipButton(el)) return;
+        if (boundButtons.has(el)) return;
+        boundButtons.add(el);
 
         const solid = isSolidButton(el);
         const arrows = arrowTargets(el);
@@ -114,6 +122,8 @@ export default function ButtonMotion() {
           else leave();
         };
 
+        enterByEl.set(el, enter);
+
         el.addEventListener("pointerenter", enter);
         el.addEventListener("pointerleave", leave);
         el.addEventListener("focus", enter);
@@ -130,32 +140,31 @@ export default function ButtonMotion() {
           el.removeEventListener("pointerdown", down);
           el.removeEventListener("pointerup", up);
           el.removeEventListener("pointercancel", leave);
-          delete el.dataset.gsapBtnBound;
-          el.classList.remove("gsap-btn-ready");
+          boundButtons.delete(el);
+          enterByEl.delete(el);
           gsap.set(el, { clearProps: "transform" });
           if (arrows.length) gsap.set(arrows, { clearProps: "transform" });
         });
       };
 
-      const scan = () => {
-        document.querySelectorAll<HTMLElement>(BTN_SELECTOR).forEach(bind);
+      // Lazy-bind only — never mutate the DOM during hydration (inline styles / classes race SSR).
+      const ensureBound = (target: EventTarget | null, playEnter: boolean) => {
+        const el = resolveButton(target);
+        if (!el) return;
+        const already = boundButtons.has(el);
+        bind(el);
+        if (playEnter && !already) enterByEl.get(el)?.();
       };
 
-      scan();
+      const onPointerOver = (e: PointerEvent) => ensureBound(e.target, false);
+      const onFocusIn = (e: FocusEvent) => ensureBound(e.target, true);
 
-      const observer = new MutationObserver(() => scan());
-      observer.observe(document.body, { childList: true, subtree: true });
-
-      // Event delegation for dynamically inserted nodes that scan might race
-      const onPointerOver = (e: PointerEvent) => {
-        const el = resolveButton(e.target);
-        if (el) bind(el);
-      };
       document.addEventListener("pointerover", onPointerOver);
+      document.addEventListener("focusin", onFocusIn);
 
       return () => {
-        observer.disconnect();
         document.removeEventListener("pointerover", onPointerOver);
+        document.removeEventListener("focusin", onFocusIn);
         cleanups.forEach((fn) => fn());
       };
     });

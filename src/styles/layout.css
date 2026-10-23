@@ -1,0 +1,168 @@
+/* Layout helpers — aligned to project scale:
+   xs 480 · sm 640 · md 768 · lg 1024 · xl 1280 · 2xl 1536 · 3xl 1920 · 4xl 2560 */
+
+.section-shell {
+  width: 100%;
+  padding-inline: var(--gutter);
+}
+
+/* Hairline separators between stacked page bands (all pages) */
+#main-content .section-shell ~ .section-shell,
+#main-content > * + .section-shell {
+  border-top: 1px solid var(--color-line);
+}
+
+#main-content .section-shell.bg-ink + .section-shell.bg-ink {
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+body > footer#contact {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.section-inner {
+  width: 100%;
+  max-width: var(--content);
+  margin-inline: auto;
+}
+
+.section-pad {
+  padding-block: 2.75rem;
+}
+@media (min-width: 640px) {
+  .section-pad {
+    padding-block: 3.5rem;
+  }
+}
+@media (min-width: 768px) {
+  .section-pad {
+    padding-block: 4.25rem;
+  }
+}
+@media (min-width: 1280px) {
+  .section-pad {
+    padding-block: 4.75rem;
+  }
+}
+
+.section-pad-sm {
+  padding-block: 2.25rem;
+}
+@media (min-width: 640px) {
+  .section-pad-sm {
+    padding-block: 2.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  .section-pad-sm {
+    padding-block: 3.25rem;
+  }
+}
+
+.section-intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+@media (min-width: 768px) {
+  .section-intro {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    margin-top: 1.25rem;
+  }
+}
+
+.section-copy {
+  max-width: 25rem; /* 400px */
+}
+
+.section-copy-on-dark {
+  color: #d0d0d0;
+}
+
+.section-copy-on-light {
+  color: #333;
+}
+
+/* Rotating headline word (see RotatingWord.tsx) */
+.rotating-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.rotating-word__item {
+  display: inline-block;
+  animation: rotating-word-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes rotating-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotating-word__item {
+    animation: none;
+  }
+}
+
+/* Rotating hero image crossfade (see WorkHeroCarousel.tsx) */
+.work-hero-carousel__slide-in {
+  animation: work-hero-carousel-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.work-hero-carousel__slide-out {
+  animation: work-hero-carousel-out 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes work-hero-carousel-in {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes work-hero-carousel-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-hero-carousel__slide-in,
+  .work-hero-carousel__slide-out {
+    animation: none;
+  }
+}
+
+.section-media {
+  margin-top: 1.75rem;
+}
+@media (min-width: 640px) {
+  .section-media {
+    margin-top: 2.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  .section-media {
+    margin-top: 2.5rem;
+  }
+}

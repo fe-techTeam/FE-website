@@ -1,0 +1,25 @@
+# Local Postgres for the First Economy admin panel.
+#   docker compose up -d      start
+#   docker compose down       stop (data is kept in the named volume)
+#   docker compose down -v    stop and wipe the database
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: fe-admin-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fe_admin
+      POSTGRES_PASSWORD: fe_admin_local
+      POSTGRES_DB: fe_website
+    ports:
+      - "5433:5432"
+    volumes:
+      - fe-admin-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fe_admin -d fe_website"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  fe-admin-pgdata:

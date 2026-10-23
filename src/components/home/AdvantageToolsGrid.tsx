@@ -1,43 +1,54 @@
-import Image from "next/image";
+import { LogoMarkGrid } from "@/components/home/PartnerLogos";
+import type { PartnerLogo } from "@/content/partners";
 
-const toolLogoFiles: Record<string, string> = {
-  "Google Trends": "google_trends.png",
-  Comscore: "comscore.png",
-  SEMrush: "semrush.png",
-  GWI: "gwi.png",
-  "Power BI": "power_bi.png",
-  Brandwatch: "brandwatch.png",
-  Brand24: "brand24.png",
-  Supermetrics: "supermetrics.png",
-  "Konnect Insights": "konnect_insights.png",
-  "Looker Studio": "looker_studio.png",
-  Similarweb: "similarweb.png",
+type ToolLogo = {
+  name: string;
+  file: string;
+  width: number;
+  height: number;
 };
 
-export default function AdvantageToolsGrid({ tools }: { tools: string[] }) {
+const TOOL_LOGOS: ToolLogo[] = [
+  { name: "Google Trends", file: "google_trends.png", width: 357, height: 91 },
+  { name: "Comscore", file: "comscore.png", width: 514, height: 119 },
+  { name: "SEMrush", file: "semrush.png", width: 270, height: 152 },
+  { name: "GWI", file: "gwi.png", width: 384, height: 288 },
+  { name: "Power BI", file: "power_bi.png", width: 360, height: 360 },
+  { name: "Brandwatch", file: "brandwatch.png", width: 428, height: 128 },
+  { name: "Brand24", file: "brand24.png", width: 360, height: 150 },
+  { name: "Supermetrics", file: "supermetrics.png", width: 405, height: 101 },
+  { name: "Konnect Insights", file: "konnect_insights.png", width: 768, height: 220 },
+  { name: "Looker Studio", file: "looker_studio.png", width: 367, height: 173 },
+  { name: "Similarweb", file: "similarweb.png", width: 402, height: 102 },
+];
+
+type AdvantageToolsGridProps = {
+  /** Kept for CMS compatibility; when omitted, full deck set is shown. */
+  tools?: string[];
+};
+
+function toPartnerLogo(tool: ToolLogo): PartnerLogo {
+  return {
+    slug: tool.file.replace(/\.png$/, ""),
+    name: tool.name,
+    src: `/images/tools/${tool.file}`,
+    width: tool.width,
+    height: tool.height,
+    sourceMedia: "deck-slide-97",
+    sourceSlide: 97,
+  };
+}
+
+export default function AdvantageToolsGrid({ tools }: AdvantageToolsGridProps) {
+  const logos = (
+    tools?.length ? TOOL_LOGOS.filter((logo) => tools.includes(logo.name)) : TOOL_LOGOS
+  ).map(toPartnerLogo);
+
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden bg-line sm:grid-cols-3">
-      {tools.map((tool) => {
-        const file = toolLogoFiles[tool];
-        return (
-          <div key={tool} className="relative flex h-20 items-center justify-center bg-paper px-4">
-            {file ? (
-              <Image src={`/images/tools/${file}`} alt={tool} fill sizes="160px" className="object-contain p-4" />
-            ) : (
-              <span className="text-sm font-semibold text-ink/85">{tool}</span>
-            )}
-          </div>
-        );
-      })}
-      <div className="relative col-span-2 flex h-20 items-center justify-center bg-paper px-4 sm:col-span-3">
-        <Image
-          src="/images/tools/in_house_proprietary_tools.png"
-          alt="In-house proprietary tools"
-          fill
-          sizes="480px"
-          className="object-contain p-4"
-        />
-      </div>
+    <div className="space-y-5 sm:space-y-6">
+      <LogoMarkGrid logos={logos} />
+      {/* Deck slide 97 caption — text only, not a logo asset */}
+      <p className="text-eyebrow m-0 pt-4 text-center sm:pt-5">And in-house proprietary tools</p>
     </div>
   );
 }

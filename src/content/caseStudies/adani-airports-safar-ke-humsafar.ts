@@ -1,0 +1,45 @@
+import type { CaseStudy } from "@/content/types";
+
+export const adaniAirportsSafarKeHumsafar: CaseStudy = {
+    slug: "adani-airports-safar-ke-humsafar",
+    client: "Adani Airports",
+    campaign: "Safar Ke Humsafar",
+    clientLogo: "/images/partners/clients/adani-airports.png",
+    industry: "travel-hospitality",
+    services: ["influencer-marketing"],
+    hero: "Drive mass awareness by positioning Adani Airports as a human-centric, world-class gateway to modern India.",
+    challenge: "Build mass awareness and emotional engagement around the airport experience.",
+    objective: "Drive mass awareness and engagement by amplifying the brand film and positioning Adani Airports as a human-centric, world-class airport experience — while highlighting its role in modern travel and India’s growth story.",
+    mandate: [
+      "Amplify the brand film through influencer-led distribution and conversations",
+      "Build a multi-layered content ecosystem — emotional, experience-led and informative",
+      "Drive on-ground + digital integration by capturing airport touchpoints",
+      "Spark community engagement via personal takes, comments and story amplification",
+      "Ensure consistent visibility through always-on amplification across creators and brand channels",
+    ],
+    executionSummary: "UGC-driven influencer campaign with a structured storytelling framework and social-first Reels.",
+    execution: [
+      "UGC-driven influencer campaign built on real traveller stories",
+      "Creators across categories sharing personal, memory-led narratives",
+      "Storytelling framework: introspective opening → one emotional airport moment → reflection-led closure",
+      "Shifted focus from services to human interactions with airport staff",
+      "Authenticity over production — natural settings, minimal intervention",
+      "“Safar Ke Humsafar” as spoken narrative device with CTA to share audience stories",
+      "Amplified through social-first Reels",
+    ],
+    executionPillars: [
+      { title: "UGC Strategy", description: "Real traveller stories across a diverse creator mix." },
+      { title: "Story Framework", description: "Introspective open, emotional moment, reflective close." },
+      { title: "Human Focus", description: "Airport staff as enablers of meaningful journeys." },
+      { title: "Social Amplification", description: "Reels, CTAs and community participation at scale." },
+    ],
+    tags: ["Influencer", "UGC", "Airports", "Social"],
+    galleryGroups: [],
+    gallery: [],
+    resultHighlights: [
+      "High engagement driven by relatable, emotion-led storytelling",
+      "Strengthened brand perception as a people-first airport experience",
+      "Sparked organic audience participation and conversations",
+    ],
+    family: "content-social",
+  };

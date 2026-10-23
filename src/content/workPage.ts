@@ -4,50 +4,76 @@
  */
 
 import type { MediaSlot } from "@/content/about";
-import type { CaseStudy, CaseStudyFamily } from "@/content/types";
+import { industries } from "@/content/industries";
+import type { CaseStudy, CaseStudyFamily, Metric } from "@/content/types";
+import { workPhotos } from "@/content/workPhotos";
 
 export const workHero = {
-  headlineBefore: "Case studies.",
-  headlineAccent: "Real impact.",
+  headlineBefore: "Our",
+  headlineAccent: "Work.",
   body: "Explore how we engineer growth systems that solve real business challenges and deliver measurable results.",
-  image: {
-    src: "/images/work/hero/work-banner.png",
-    alt: "First Economy team in a strategy meeting reviewing growth analytics on a boardroom display",
-    label: "Work hero banner",
-    grayscale: false,
-  } satisfies MediaSlot,
   burst: "/images/work/hero/radial-burst.svg",
   arrow: "/images/work/hero/arrow-circle.svg",
 };
 
+/** Tabs mirror the card badges; a case also appears under any tab whose service it was delivered under (see `filterServiceSlugs`). */
 export const workFilters = [
   { key: "all", label: "All Cases" },
-  { key: "media", label: "Media" },
-  { key: "creative", label: "Creative" },
-  { key: "branding", label: "Branding" },
-  { key: "technology", label: "Technology" },
-  { key: "social", label: "Social" },
+  { key: "integrated", label: "Integrated Campaign" },
+  { key: "media-buying", label: "360° Media Buying" },
+  { key: "tech", label: "Tech Solutions" },
+  { key: "social", label: "Social Media" },
   { key: "seo", label: "SEO" },
-  { key: "ai", label: "AI" },
-  { key: "performance", label: "Performance" },
+  { key: "video", label: "Video Production" },
+  { key: "creative", label: "Creative Solutions" },
+  { key: "influencer", label: "Influencer Marketing" },
 ] as const;
 
 export type WorkFilterKey = (typeof workFilters)[number]["key"];
 
-const filterServices: Record<Exclude<WorkFilterKey, "all" | "performance">, string[]> = {
-  media: ["media-buying"],
-  creative: ["video-production", "creative"],
-  branding: ["branding"],
-  technology: ["technology"],
-  social: ["social-media", "influencer-marketing"],
-  seo: ["seo"],
-  ai: ["ai-solutions"],
+const filterTagLabels: Record<Exclude<WorkFilterKey, "all">, string> = {
+  integrated: "Integrated Campaign",
+  "media-buying": "360° Media Buying",
+  tech: "Tech Solutions",
+  social: "Social Media",
+  seo: "SEO",
+  video: "Video Production",
+  creative: "Creative Solutions",
+  influencer: "Influencer Marketing",
 };
+
+/** Service slugs (from `caseStudy.services`) that also place a case under a filter tab. */
+const filterServiceSlugs: Partial<Record<Exclude<WorkFilterKey, "all">, string[]>> = {
+  "media-buying": ["media-buying"],
+  tech: ["technology"],
+  social: ["social-media"],
+  seo: ["seo"],
+  video: ["video-production"],
+  creative: ["creative"],
+  influencer: ["influencer-marketing"],
+};
+
+/** A case matches a tab by its badge OR by any of its service tags — one badge, many filters. */
+/**
+ * Cases that belong ONLY to the tab matching their card badge. They are not also listed under the tabs of the
+ * individual services they used (e.g. Royale Touché is an Integrated Campaign, not an SEO / Social / Influencer case).
+ */
+const badgeOnlyFilterCases = new Set(["royale-touche-stay-curious"]);
 
 export function matchesWorkFilter(caseStudy: CaseStudy, key: WorkFilterKey) {
   if (key === "all") return true;
-  if (key === "performance") return caseStudy.family === "media-performance";
-  return caseStudy.services.some((service) => filterServices[key].includes(service));
+  if (workCardTag(caseStudy) === filterTagLabels[key]) return true;
+  if (badgeOnlyFilterCases.has(caseStudy.slug)) return false;
+  return (filterServiceSlugs[key] ?? []).some((slug) => caseStudy.services.includes(slug));
+}
+
+/** Resolves a `/work?service=<service-slug>` deep link to its filter tab (null = no matching tab). */
+export function workFilterFromService(serviceSlug: string | null | undefined): WorkFilterKey | null {
+  if (!serviceSlug) return null;
+  for (const [key, slugs] of Object.entries(filterServiceSlugs)) {
+    if (slugs?.includes(serviceSlug)) return key as WorkFilterKey;
+  }
+  return null;
 }
 
 /** Mockup order first, then remaining studies. */
@@ -55,55 +81,108 @@ export const workShowcaseOrder = [
   "godrej-blue",
   "fedex-csk",
   "royale-touche-stay-curious",
-  "poonawalla-fraud-awareness",
   "mahindra-manulife",
   "orpat-erp",
   "ajanta-ai-creatives",
   "waaree",
 ];
 
+/** Kept in sync with `familyLabels` in workDetail.ts — card tags mirror each case study’s own detail-page eyebrow. */
 const familyTags: Record<CaseStudyFamily, string> = {
-  integrated: "360° Campaign",
-  "media-performance": "360° Campaign",
-  technology: "Brand Campaign",
-  "content-social": "Brand Campaign",
-  ai: "Brand Campaign",
+  integrated: "Integrated Campaign",
+  "media-performance": "Media Performance",
+  technology: "Technology",
+  "content-social": "Content & Social",
+  ai: "AI Solutions",
+};
+
+/** Per-case-study card tag — takes priority over the family-based `familyTags` fallback. */
+const cardTagOverrides: Record<string, string> = {
+  "godrej-blue": "Integrated Campaign",
+  "royale-touche-stay-curious": "Integrated Campaign",
+  "fedex-csk": "360° Media Buying",
+  "vip-industries": "360° Media Buying",
+  "mahindra-manulife": "Tech Solutions",
+  "orpat-erp": "Tech Solutions",
+  waaree: "Social Media",
+  "akbar-travels-seo": "SEO",
+  "jockey-seo": "Integrated Campaign",
+  "cello-kidzbee": "Video Production",
+  "ajanta-ai-creatives": "Video Production",
+  "ambassador-hotel": "Creative Solutions",
+  "godrej-greenfront": "Creative Solutions",
+  "amazon-samsung-great-indian-festival": "Influencer Marketing",
+  "adani-airports-safar-ke-humsafar": "Influencer Marketing",
 };
 
 const titleOverrides: Record<string, string> = {
   "godrej-blue": "Godrej Blue",
   "godrej-greenfront": "Godrej Greenfront",
-  "ajanta-ai-creatives": "Ajanta Jewellery",
+  "fedex-csk": "FedEx × CSK",
+  "ajanta-ai-creatives": "Ajanta Magic Moments",
   waaree: "Waaree Energies",
-  "poonawalla-ai-creatives": "Poonawalla AI",
+  "royale-touche-stay-curious": "Royale Touché",
 };
+
+/** Home carousel — curated headline metrics (deck highlights not always first in `results`). */
+const homeFeaturedSpotlight: Partial<Record<string, Metric>> = {
+  "godrej-blue": { value: "1,000+", label: "Influencers live in one hour" },
+  "royale-touche-stay-curious": { value: "120K+", label: "Reddit impressions" },
+};
+
+const homeFeaturedEyebrowOverrides: Partial<Record<string, string>> = {
+  "fedex-csk": "Brand Recall",
+  "royale-touche-stay-curious": "Integrated Campaign",
+};
+
+export const homeFeaturedWorkLimit = 4;
 
 export function workCardTitle(caseStudy: CaseStudy) {
   return titleOverrides[caseStudy.slug] ?? caseStudy.client;
 }
 
 export function workCardTag(caseStudy: CaseStudy) {
-  return familyTags[caseStudy.family];
+  return cardTagOverrides[caseStudy.slug] ?? familyTags[caseStudy.family];
 }
 
-/** Case thumbnails under /public/images/work/cases/ */
-const caseImages: Record<string, string> = {
-  "godrej-blue": "/images/work/cases/godrej-blue.png",
-  "fedex-csk": "/images/work/cases/fedex-csk.png",
-  "royale-touche-stay-curious": "/images/work/cases/royale-touche.png",
-  "poonawalla-fraud-awareness": "/images/work/cases/poonawalla-fraud-awareness.png",
-  "mahindra-manulife": "/images/work/cases/mahindra-manulife.png",
-  "orpat-erp": "/images/work/cases/orpat-erp.png",
-  "ajanta-ai-creatives": "/images/work/cases/ajanta-ai-creatives.png",
-  waaree: "/images/work/cases/waaree.png",
-};
+export function caseStudyIndustryName(caseStudy: CaseStudy) {
+  return industries.find((industry) => industry.slug === caseStudy.industry)?.name ?? caseStudy.industry;
+}
 
+export function homeFeaturedWorkStudies(studies: CaseStudy[]) {
+  return workShowcaseOrder
+    .map((slug) => studies.find((study) => study.slug === slug))
+    .filter((study): study is CaseStudy => Boolean(study?.featured))
+    .slice(0, homeFeaturedWorkLimit);
+}
+
+export function homeFeaturedEyebrow(caseStudy: CaseStudy) {
+  return homeFeaturedEyebrowOverrides[caseStudy.slug] ?? workCardTag(caseStudy);
+}
+
+export function homeFeaturedSpotlightMetric(caseStudy: CaseStudy): Metric {
+  return (
+    homeFeaturedSpotlight[caseStudy.slug] ??
+    caseStudy.results?.[0] ?? { value: "—", label: "Impact" }
+  );
+}
+
+/** Case thumbnails — shared with home / detail story covers via workPhotos. */
 export function workCardImage(caseStudy: CaseStudy): MediaSlot {
   return {
-    src: caseImages[caseStudy.slug],
+    src: workPhotos[caseStudy.slug],
     alt: `${caseStudy.client} — ${caseStudy.campaign}`,
     label: workCardTitle(caseStudy),
     grayscale: false,
+    // Designed campaign covers (type + logos) must not be cropped in the hero frame.
+    fit:
+      caseStudy.slug === "godrej-blue" ||
+      caseStudy.slug === "royale-touche-stay-curious" ||
+      caseStudy.slug === "fedex-csk" ||
+      caseStudy.slug === "amazon-samsung-great-indian-festival" ||
+      caseStudy.slug === "adani-airports-safar-ke-humsafar"
+        ? "contain"
+        : undefined,
   };
 }
 
@@ -117,7 +196,7 @@ export function orderedWorkStudies(studies: CaseStudy[]) {
 
 export const workStats = {
   icon: {
-    src: "/images/work/stats/results-target.png",
+    src: "/images/work/stats/results-target.svg",
     alt: "",
     label: "Results",
   } satisfies MediaSlot,
@@ -131,9 +210,9 @@ export const workStats = {
 };
 
 export const workCta = {
-  titleBefore: "Have a challenge",
-  titleAccent: "worth solving?",
-  body: "Let's engineer a growth system custom-built for your brand.",
-  button: { label: "Start a Conversation", href: "/contact" },
+  titleBefore: "Got a challenge?",
+  titleAccent: "Bring it on.",
+  body: "Let’s engineer a growth system custom-built for your brand.",
+  button: { label: "Let’s talk", href: "/contact" },
   burst: "/images/work/cta-burst.svg",
 };
