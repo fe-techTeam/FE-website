@@ -66,8 +66,16 @@ const filterServiceSlugs: Partial<Record<Exclude<WorkFilterKey, "all">, string[]
  */
 const badgeOnlyFilterCases = new Set(["royale-touche-stay-curious"]);
 
+/** Cases kept out of a specific tab for now (they still show under All and any other tab they match). */
+const hiddenFromFilter: Record<string, WorkFilterKey[]> = {
+  "jockey-seo": ["integrated"],
+  "adani-airports-safar-ke-humsafar": ["influencer"],
+  "fedex-csk": ["media-buying"],
+};
+
 export function matchesWorkFilter(caseStudy: CaseStudy, key: WorkFilterKey) {
   if (key === "all") return true;
+  if (hiddenFromFilter[caseStudy.slug]?.includes(key)) return false;
   if (workCardTag(caseStudy) === filterTagLabels[key]) return true;
   if (badgeOnlyFilterCases.has(caseStudy.slug)) return false;
   return (filterServiceSlugs[key] ?? []).some((slug) => caseStudy.services.includes(slug));
