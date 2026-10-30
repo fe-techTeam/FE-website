@@ -2,15 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { aboutFeaturedAchievement, featuredCampaignAward } from "@/content/about";
 
-export default function FeaturedAwardHighlight() {
+const frameClass = "group relative block overflow-hidden rounded-[20px] border-2 border-red bg-ink sm:rounded-[22px]";
+
+/** `linked` makes the whole block a link to the case study; the About page shows it as a plain highlight. */
+export default function FeaturedAwardHighlight({ linked = true }: { linked?: boolean }) {
   const imageSrc = featuredCampaignAward.image.src;
 
-  return (
-    <Link
-      href={aboutFeaturedAchievement.href}
-      className="group relative block overflow-hidden rounded-[20px] border-2 border-red bg-ink sm:rounded-[22px]"
-      aria-label={`${featuredCampaignAward.client}: ${aboutFeaturedAchievement.title}`}
-    >
+  const content = (
+    <>
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-stretch">
         <div className="relative aspect-[16/10] min-h-[220px] overflow-hidden bg-[#111] sm:min-h-[260px] lg:aspect-auto lg:min-h-[320px]">
           {imageSrc ? (
@@ -38,6 +37,18 @@ export default function FeaturedAwardHighlight() {
           <p className="text-body-sm mt-4 mb-0 max-w-[32rem] text-muted-on-dark sm:mt-5">{aboutFeaturedAchievement.body}</p>
         </div>
       </div>
+    </>
+  );
+
+  if (!linked) return <div className={frameClass}>{content}</div>;
+
+  return (
+    <Link
+      href={aboutFeaturedAchievement.href}
+      className={frameClass}
+      aria-label={`${featuredCampaignAward.client}: ${aboutFeaturedAchievement.title}`}
+    >
+      {content}
     </Link>
   );
 }

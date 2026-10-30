@@ -15,31 +15,31 @@ const allServiceOfferings: ServiceOffering[] = [
   {
     slug: "media-buying",
     name: "360° Media Buying",
-    description: "Integrated media strategy across search, social, programmatic and OOH.",
+    description: "From reach to results, we make every media dollar work harder.",
     href: "/services/media-buying",
   },
   {
     slug: "video-production",
     name: "Video Production",
-    description: "Brand films and social video built for how people watch today.",
+    description: "Stories that stop the scroll, spark emotion and stay remembered.",
     href: "/services/video-production",
   },
   {
     slug: "branding",
     name: "Project Innovation & Branding",
-    description: "Identity systems that hold up on screen and on the storefront.",
+    description: "Turn bold ideas into distinctive brands people recognise and remember.",
     href: "/services/branding",
   },
   {
     slug: "influencer-marketing",
     name: "Influencer Marketing",
-    description: "Creator networks built for scale, authenticity and amplification.",
+    description: "The right creators. Real conversations. Influence that moves people to act.",
     href: "/services/influencer-marketing",
   },
   {
     slug: "technology",
     name: "Tech Solutions",
-    description: "Platforms and systems built for scale, compliance and growth.",
+    description: "Smarter systems that simplify complexity and accelerate growth.",
     href: "/services/technology",
   },
   {
@@ -51,13 +51,13 @@ const allServiceOfferings: ServiceOffering[] = [
   {
     slug: "social-media",
     name: "Social Media",
-    description: "Always-on social strategy, content and community that compounds.",
+    description: "More than likes, we build social growth, meaningful engagement and loyal communities.",
     href: "/services/social-media",
   },
   {
     slug: "seo",
     name: "SEO/AEO/GEO",
-    description: "Technical, local and AI-era search built to be found.",
+    description: "Get found on search engines, featured in AI answers and chosen by your audience.",
     href: "/services/seo",
   },
   {

@@ -8,6 +8,12 @@ import { industries } from "@/content/industries";
 import type { CaseStudy, CaseStudyFamily, Metric } from "@/content/types";
 import { workPhotos } from "@/content/workPhotos";
 
+/**
+ * Case studies kept out of the rotating slider at the top of /work. They are still listed in the case-study grid
+ * below; delete a slug here to put it back in the slider.
+ */
+export const workHeroExcludedSlugs: string[] = ["adani-airports-safar-ke-humsafar", "fedex-csk"];
+
 export const workHero = {
   headlineBefore: "Our",
   headlineAccent: "Work.",

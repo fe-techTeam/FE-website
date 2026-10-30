@@ -7,7 +7,7 @@ import WorkCaseBrowser from "@/components/work/WorkCaseBrowser";
 import WorkHeroCarousel from "@/components/work/WorkHeroCarousel";
 import { usePageReveal } from "@/hooks/usePageReveal";
 import { caseStudies } from "@/content/caseStudies";
-import { workCta, workHero } from "@/content/workPage";
+import { workCta, workHero, workHeroExcludedSlugs } from "@/content/workPage";
 
 export default function WorkPage() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ export default function WorkPage() {
         body={workHero.body}
         media={
           <WorkHeroCarousel
-            caseStudies={caseStudies}
+            caseStudies={caseStudies.filter((caseStudy) => !workHeroExcludedSlugs.includes(caseStudy.slug))}
             priority
             className="aspect-[4/3] w-full sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[420px]"
             sizes="(max-width: 1024px) 100vw, 50vw"

@@ -297,10 +297,12 @@ export type CampaignAward = {
   accolade: string;
   category: string;
   image: MediaSlot;
+  /** Hidden for now: kept here with its copy, but not listed anywhere on the site. Remove the flag to show it. */
+  hidden?: boolean;
 };
 
 /** Campaign awards — creds deck slides 10–11. */
-export const campaignAwards: CampaignAward[] = [
+const allCampaignAwards: CampaignAward[] = [
   {
     client: "Godrej Properties",
     organization: "Guinness World Records",
@@ -381,6 +383,7 @@ export const campaignAwards: CampaignAward[] = [
   },
   {
     client: "Abhi Loans",
+    hidden: true,
     organization: "afaqs! Brand Storyz Awards",
     accolade: "Best Use of Webinars (Silver)",
     category: "Brand Initiatives — Best Use of Webinars.",
@@ -818,5 +821,8 @@ export const aboutCta = {
 
 export { officeLocations as aboutLocations } from "@/content/offices";
 export type { OfficeLocation as AboutLocation } from "@/content/offices";
+
+/** The awards the site lists: everything not marked `hidden`. */
+export const campaignAwards: CampaignAward[] = allCampaignAwards.filter((award) => !award.hidden);
 
 export const featuredCampaignAward = campaignAwards[0];

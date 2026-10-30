@@ -18,6 +18,16 @@ export const servicesHero = {
   } satisfies MediaSlot,
   burst: "/images/services/hero/radial-burst.svg",
   arrow: "/images/services/hero/arrow-circle.svg",
+  /** Keyword strip under the intro; `icon` picks the icon in ServicesPage.tsx. */
+  keywords: [
+    { id: "strategy", label: "Strategy", icon: "compass" },
+    { id: "creative", label: "Creative", icon: "palette" },
+    { id: "media", label: "Media", icon: "megaphone" },
+    { id: "technology", label: "Technology", icon: "cpu" },
+    { id: "data", label: "Data", icon: "chart" },
+    { id: "ai", label: "AI", icon: "sparkles" },
+    { id: "growth", label: "Growth", icon: "trending" },
+  ] as const,
 };
 
 export const servicesGrid = {

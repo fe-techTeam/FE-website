@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { serviceOfferingIconBySlug } from "@/components/serviceOfferingIcons";
-import { serviceOfferings, type ServiceOffering } from "@/content/serviceOfferings";
+import { SERVICES_CREATIVE_CARD_ENABLED } from "@/content/features";
+import { serviceOfferings as allServiceOfferings, type ServiceOffering } from "@/content/serviceOfferings";
+
+// The cards shown in the grid (the footer and page list still use the full list).
+const serviceOfferings = allServiceOfferings.filter(
+  (service) => SERVICES_CREATIVE_CARD_ENABLED || service.slug !== "creative",
+);
 
 const ACCENTS = [
   { bg: "bg-red/10", text: "text-red" },
@@ -20,18 +26,15 @@ function ServiceCard({
   service,
   accent,
   index,
-  orphan,
 }: {
   service: ServiceOffering;
   accent: (typeof ACCENTS)[number];
   index: number;
-  /** A lone last card on the three-column row is centred instead of left-hanging. */
-  orphan: boolean;
 }) {
   const Icon = serviceOfferingIconBySlug[service.slug];
 
   return (
-    <li className={`ai-stack__card min-w-0${orphan ? " ai-stack__card--orphan" : ""}`}>
+    <li className="ai-stack__card min-w-0">
       <Link
         href={service.href}
         className="ai-stack__card-link group overflow-hidden rounded-[22px] border border-[#e6e6e6] bg-white p-5 shadow-[0_8px_20px_rgba(0,0,0,0.07)] transition-colors duration-200 hover:border-red/35 focus-visible:border-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red sm:rounded-[26px] sm:p-6"
@@ -73,8 +76,6 @@ function ServiceCard({
 
 /** Every service visible at once: the AI hub as the intro, then a plain card grid (no inner scroll box). */
 export default function AiServicesStack() {
-  const orphan = serviceOfferings.length % 3 === 1;
-
   return (
     <div className="ai-stack">
       <div data-animate="fade-up" className="ai-stack__hub">
@@ -103,7 +104,6 @@ export default function AiServicesStack() {
             service={service}
             accent={ACCENTS[i % ACCENTS.length]!}
             index={i}
-            orphan={orphan && i === serviceOfferings.length - 1}
           />
         ))}
       </ul>
