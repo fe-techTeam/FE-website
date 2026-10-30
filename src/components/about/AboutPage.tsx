@@ -212,7 +212,7 @@ export default function AboutPage() {
           </div>
 
           <div data-animate="fade-up" className="section-media">
-            <FeaturedAwardHighlight />
+            <FeaturedAwardHighlight linked={false} />
           </div>
         </div>
       </section>

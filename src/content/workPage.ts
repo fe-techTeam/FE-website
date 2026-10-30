@@ -8,6 +8,12 @@ import { industries } from "@/content/industries";
 import type { CaseStudy, CaseStudyFamily, Metric } from "@/content/types";
 import { workPhotos } from "@/content/workPhotos";
 
+/**
+ * Case studies kept out of the rotating slider at the top of /work. They are still listed in the case-study grid
+ * below; delete a slug here to put it back in the slider.
+ */
+export const workHeroExcludedSlugs: string[] = ["adani-airports-safar-ke-humsafar", "fedex-csk"];
+
 export const workHero = {
   headlineBefore: "Our",
   headlineAccent: "Work.",
@@ -60,8 +66,16 @@ const filterServiceSlugs: Partial<Record<Exclude<WorkFilterKey, "all">, string[]
  */
 const badgeOnlyFilterCases = new Set(["royale-touche-stay-curious"]);
 
+/** Cases kept out of a specific tab for now (they still show under All and any other tab they match). */
+const hiddenFromFilter: Record<string, WorkFilterKey[]> = {
+  "jockey-seo": ["integrated"],
+  "adani-airports-safar-ke-humsafar": ["influencer"],
+  "fedex-csk": ["media-buying"],
+};
+
 export function matchesWorkFilter(caseStudy: CaseStudy, key: WorkFilterKey) {
   if (key === "all") return true;
+  if (hiddenFromFilter[caseStudy.slug]?.includes(key)) return false;
   if (workCardTag(caseStudy) === filterTagLabels[key]) return true;
   if (badgeOnlyFilterCases.has(caseStudy.slug)) return false;
   return (filterServiceSlugs[key] ?? []).some((slug) => caseStudy.services.includes(slug));

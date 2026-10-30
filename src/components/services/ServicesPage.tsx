@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BarChart3, Compass, Cpu, Megaphone, Palette, Sparkles, TrendingUp, type LucideIcon } from "lucide-react";
 import CTASection from "@/components/CTASection";
 import PageHero from "@/components/PageHero";
 import CapabilitiesWorkCarousel from "@/components/capabilities/CapabilitiesWorkCarousel";
@@ -23,6 +23,16 @@ import {
   servicesHero,
 } from "@/content/servicesPage";
 import { dataTools } from "@/content/site";
+
+const keywordIcons: Record<(typeof servicesHero.keywords)[number]["icon"], LucideIcon> = {
+  compass: Compass,
+  palette: Palette,
+  megaphone: Megaphone,
+  cpu: Cpu,
+  chart: BarChart3,
+  sparkles: Sparkles,
+  trending: TrendingUp,
+};
 
 export default function ServicesPage() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -45,6 +55,28 @@ export default function ServicesPage() {
         }
         body={servicesHero.body}
         bodyClassName="text-body section-copy-on-light mt-5 mb-0 mx-auto max-w-[44rem] text-center sm:mt-6"
+        copyAfterBody={
+          <ul
+            data-animate="hero-copy"
+            aria-label="What we bring together"
+            className="mx-auto mt-8 grid w-full max-w-4xl list-none grid-cols-2 gap-y-5 p-0 sm:mt-10 sm:grid-cols-4 lg:flex lg:max-w-none lg:justify-center"
+          >
+            {servicesHero.keywords.map((keyword) => {
+              const Icon = keywordIcons[keyword.icon];
+              return (
+                <li
+                  key={keyword.id}
+                  className="flex items-center justify-center gap-2.5 border-line px-3 max-sm:even:border-l sm:border-l sm:nth-[4n+1]:border-l-0 lg:nth-1:border-l-0 lg:nth-5:border-l lg:px-7"
+                >
+                  <Icon size={20} strokeWidth={1.75} className="flex-none text-red" aria-hidden />
+                  <span className="text-body-sm font-semibold tracking-[0.08em] text-ink uppercase">
+                    {keyword.label}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        }
         media={null}
         showMediaRule={false}
         gridClassName="grid grid-cols-1"

@@ -11,6 +11,7 @@ import AiServicesStack from "@/components/home/AiServicesStack";
 import FeaturedWorkCarousel from "@/components/home/FeaturedWorkCarousel";
 import PartnerLogos from "@/components/home/PartnerLogos";
 import LocationsSection from "@/components/home/LocationsSection";
+import { HOME_OFFICES_ENABLED, HOME_STATS_DESCRIPTIONS_ENABLED } from "@/content/features";
 import CareersTeaser from "@/components/home/CareersTeaser";
 import GrowthNetworkVisual from "@/components/home/GrowthNetworkVisual";
 import CTASection from "@/components/CTASection";
@@ -357,9 +358,11 @@ export default function HomePage() {
                   {stat.label}
                   {stat.footnoteMarker ? "*" : ""}
                 </p>
-                <p className="text-body-sm mt-2.5 mb-0 max-w-[22rem] text-muted-on-dark sm:mt-3">
-                  {stat.description}
-                </p>
+                {HOME_STATS_DESCRIPTIONS_ENABLED ? (
+                  <p className="text-body-sm mt-2.5 mb-0 max-w-[22rem] text-muted-on-dark sm:mt-3">
+                    {stat.description}
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>
@@ -431,7 +434,7 @@ export default function HomePage() {
       </section>
 
       <PartnerLogos />
-      <LocationsSection />
+      {HOME_OFFICES_ENABLED ? <LocationsSection /> : null}
       <CareersTeaser />
 
       {FAQS_ENABLED ? (

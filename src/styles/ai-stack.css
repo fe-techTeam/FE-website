@@ -1,5 +1,5 @@
 /* Services — AI intro + a plain card grid. Every service is visible at once: one column on phones,
-   two from tablet, three from desktop (a lone last card is centred). No inner scroller. */
+   two from tablet, three from desktop (a short last row stays left-aligned). No inner scroller. */
 
 .ai-stack {
   display: grid;
@@ -50,9 +50,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .ai-stack__card--orphan {
-    grid-column: 2;
-  }
 }
 
 /* Hover: the card lifts and its icon pops, so each one feels alive. Skipped for reduced motion. */
